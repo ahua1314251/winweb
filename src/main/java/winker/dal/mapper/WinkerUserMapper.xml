@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="winker.dal.mapper.WinkerUserMapper" >
+  <resultMap id="BaseResultMap" type="winker.dal.model.WinkerUser" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="User_Name" property="userName" jdbcType="VARCHAR" />
+    <result column="Password" property="password" jdbcType="VARCHAR" />
+    <result column="Email" property="email" jdbcType="VARCHAR" />
+    <result column="Login_ID" property="loginId" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="pic_path" property="picPath" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="BIT" />
+    <result column="birthday" property="birthday" jdbcType="DATE" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+    <result column="department_id" property="departmentId" jdbcType="INTEGER" />
+    <result column="qq" property="qq" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, User_Name, Password, Email, Login_ID, address, pic_path, sex, birthday, org_id, 
+    department_id, qq, mobile, create_user_id, create_time, update_user_id, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from winker_User
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from winker_User
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="winker.dal.model.WinkerUser" >
+    insert into winker_User (ID, User_Name, Password, 
+      Email, Login_ID, address, 
+      pic_path, sex, birthday, org_id, 
+      department_id, qq, mobile, 
+      create_user_id, create_time, update_user_id, 
+      update_time)
+    values (#{id,jdbcType=BIGINT}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{loginId,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{picPath,jdbcType=VARCHAR}, #{sex,jdbcType=BIT}, #{birthday,jdbcType=DATE}, #{orgid,jdbcType=BIGINT}, 
+      #{departmentid,jdbcType=BIGINT}, #{qq,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{createUserId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="winker.dal.model.WinkerUser" >
+    insert into winker_User
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="userName != null" >
+        User_Name,
+      </if>
+      <if test="password != null" >
+        Password,
+      </if>
+      <if test="email != null" >
+        Email,
+      </if>
+      <if test="loginId != null" >
+        Login_ID,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="picPath != null" >
+        pic_path,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="birthday != null" >
+        birthday,
+      </if>
+      <if test="orgId != null" >
+        org_id,
+      </if>
+      <if test="departmentId != null" >
+        department_id,
+      </if>
+      <if test="qq != null" >
+        qq,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="loginId != null" >
+        #{loginId,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="picPath != null" >
+        #{picPath,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=BIT},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=DATE},
+      </if>
+      <if test="orgId != null" >
+        #{orgid,jdbcType=BIGINT},
+      </if>
+      <if test="departmentId != null" >
+        #{departmentid,jdbcType=BIGINT},
+      </if>
+      <if test="qq != null" >
+        #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="winker.dal.model.WinkerUser" >
+    update winker_User
+    <set >
+      <if test="userName != null" >
+        User_Name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        Password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        Email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="loginId != null" >
+        Login_ID = #{loginId,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="picPath != null" >
+        pic_path = #{picPath,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=BIT},
+      </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=DATE},
+      </if>
+      <if test="orgId != null" >
+        org_id = #{orgid,jdbcType=BIGINT},
+      </if>
+      <if test="departmentId != null" >
+        department_id = #{departmentid,jdbcType=BIGINT},
+      </if>
+      <if test="qq != null" >
+        qq = #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="winker.dal.model.WinkerUser" >
+    update winker_User
+    set User_Name = #{userName,jdbcType=VARCHAR},
+      Password = #{password,jdbcType=VARCHAR},
+      Email = #{email,jdbcType=VARCHAR},
+      Login_ID = #{loginId,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      pic_path = #{picPath,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=BIT},
+      birthday = #{birthday,jdbcType=DATE},
+      org_id = #{orgid,jdbcType=BIGINT},
+      department_id = #{departmentid,jdbcType=BIGINT},
+      qq = #{qq,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  
+  
+  
+  
+  <select id="validateUserByLoginIdAndPwd" resultType = "java.lang.Integer"  parameterType="winker.dal.model.WinkerUser"  >
+    select 
+    1
+    from winker_User
+    where Login_ID = #{loginId,jdbcType=VARCHAR} and Password = #{password,jdbcType=VARCHAR} limit 1
+  </select>
+  
+  <select id="getUserListByPage" resultMap = "BaseResultMap"  parameterType="winker.dal.criteria.UserCriteria"  >
+     select 
+    <include refid="Base_Column_List" />
+    from winker_User
+  </select>
+</mapper>

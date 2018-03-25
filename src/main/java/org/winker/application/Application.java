@@ -6,7 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 
 @SpringBootApplication  
-@ComponentScan(value = {"org.winker.*"})
+@ComponentScan(value = {"org.winker.*","winker.*"})
 //@ConfigurationProperties(prefix="application")
 
 public class Application {
