@@ -13,10 +13,21 @@ public class Index2 {
 
     @RequestMapping("index.json")
     @ResponseBody
-    public String index(){
+    public String indexJson(){
 
         return "hello world!!123333";
     }
 
+    @RequestMapping("index.html")
+    public String index(){
+
+        return "index";
+    }
+
+    @RequestMapping("index2.html")
+    public String index2(){
+
+        return "index";
+    }
 	
 }

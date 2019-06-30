@@ -40,35 +40,35 @@
 	</bean>
 
     <!-- 添加主拦截器 -->
-<!--     <mvc:interceptors>
-    <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
-    <mvc:interceptor>
-        <mvc:mapping path="/**"/>
-        <bean  class="winker.core.interceptor.SysytemInterceptor"/>
-    </mvc:interceptor>
-    </mvc:interceptors> -->
+<!--     <mvc:interceptors>-->
+<!--    <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />-->
+<!--    <mvc:interceptor>-->
+<!--        <mvc:mapping path="/**"/>-->
+<!--        <bean  class="winker.core.interceptor.SysytemInterceptor"/>-->
+<!--    </mvc:interceptor>-->
+<!--    </mvc:interceptors>-->
 
  <!-- spring mvc ResponseBody 支持 json -->
-<!--     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
         <property name="messageConverters">
             <list>
-                <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>  
+                <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
                 <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
                 <property name="supportedMediaTypes">
 					<list>
 					<value>text/html;charset=utf-8</value>
 					<value>application/json;charset=UTF-8;</value>
 					</list>
-				</property> 
+				</property>
                 </bean>
             </list>
         </property>
-    </bean> -->
+    </bean>
     
 
 
 	<!-- 启用spring mvc 注解 -->
-	<!-- <context:annotation-config /> -->
+	 <context:annotation-config />
 
 
 </beans>  
