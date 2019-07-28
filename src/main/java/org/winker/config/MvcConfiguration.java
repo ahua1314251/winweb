@@ -6,6 +6,7 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.http.MediaType;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.view.velocity.VelocityConfig;
@@ -51,5 +52,11 @@ public class MvcConfiguration extends WebMvcConfigurationSupport {
                 mediaType("json", MediaType.APPLICATION_JSON);
     }
 
-
+    @Override
+    protected void addResourceHandlers(ResourceHandlerRegistry registry) {
+        if(!registry.hasMappingForPattern("/static/**")){
+            registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+        }
+        super.addResourceHandlers(registry);
+    }
 }
