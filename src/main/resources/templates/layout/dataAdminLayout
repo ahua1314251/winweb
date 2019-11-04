@@ -7,11 +7,6 @@
         <title>AdminLTE 2 | Data Tables</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-        <script src="/static/js/common.js"></script>
-        <script src="/static/js/vendors.js"></script>
-        <script src="/static/js/bundle.js"></script>
-
-
         <!-- Bootstrap 3.3.7 -->
         <!--  <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css">-->
         <!-- Font Awesome -->
@@ -718,7 +713,10 @@
         <!-- ./wrapper -->
 
         <!-- jQuery 3 -->
-
+        <script src="/static/js/common.js"></script>
+        <script src="/static/js/vendors.js"></script>
+        <script src="/static/js/bundle.js"></script>
+        <script src="https://unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.js"></script>
 
         <!--<script src="../../bower_components/jquery/dist/jquery.min.js"></script>-->
         <!-- Bootstrap 3.3.7 -->
