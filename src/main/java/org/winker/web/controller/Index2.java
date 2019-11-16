@@ -12,16 +12,17 @@ import javax.servlet.http.HttpServletRequest;
 public class Index2 {
 
 
-    @RequestMapping("index.html")
-    public String index(){
-
-        return "calendar";
-    }
 
     @RequestMapping("pages/**")
     public String index2(HttpServletRequest res){
         System.out.println(res.getRequestURI());;
         return res.getRequestURI().replaceAll(".html","");
+    }
+
+    @RequestMapping("/")
+    public String index(){
+
+        return "/pages/tables/data";
     }
 
 }
