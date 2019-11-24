@@ -30,6 +30,7 @@ public class DataBaseService {
 
         public  List<Table> getTableList() throws SQLException {
             List<Table> tableList= new ArrayList<>();
+
             ResultSet catalogsSet = map.get("test1").getConnection().getMetaData().getCatalogs();
 
             while (catalogsSet.next()){
