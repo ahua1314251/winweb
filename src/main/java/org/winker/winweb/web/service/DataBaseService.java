@@ -20,7 +20,7 @@ public class DataBaseService {
               dataSource.setDriverClassName("com.mysql.jdbc.Driver");
               dataSource.setUsername("root");
               dataSource.setUrl("jdbc:mysql://118.24.247.119:3306/mydb");
-              dataSource.setPassword("111111");
+              dataSource.setPassword("1314251");
               dataSource.setName("test1");
               dataSource.setMaxActive(2);
               map.put("test1",dataSource);
@@ -40,7 +40,11 @@ public class DataBaseService {
             ResultSet tableSet =  map.get("test1").getConnection().getMetaData().getTables("mydb",null,null,null);
 
             while (tableSet.next()){
-                System.out.println(tableSet.getString(1));
+                Table table = new Table();
+                table.setTableName(tableSet.getString("TABLE_NAME"));
+                table.setSchema(tableSet.getString("TYPE_CAT"));
+                System.out.println(tableSet.getString("TABLE_NAME"));
+                tableList.add(table);
             }
             return tableList;
         }

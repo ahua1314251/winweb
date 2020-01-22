@@ -1,6 +1,7 @@
 package org.winker.winweb.web.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -21,6 +22,7 @@ public class Index2 {
 
     @RequestMapping("/")
     public String index(){
+
 
         return "/pages/tables/data";
     }
