@@ -2,7 +2,7 @@
 set password [lindex $argv 0]
 set timeout -1
 exec cp ./target/winweb.war ./target/ROOT.war
-spawn scp -o StrictHostKeyChecking=no  -P 22 -r ./target/ROOT.war admin@118.24.247.119:/home/admin/apache-tomcat-8.5.47
+spawn scp -o StrictHostKeyChecking=no  -P 22 -r ./target/ROOT.war admin@106.54.255.63:/home/admin/apache-tomcat-8.5.47
 expect {
  "(yes/no)?" {
    send "yes\n"
@@ -15,7 +15,7 @@ expect {
 expect eof
 
 #!/usr/bin/expect
-spawn ssh admin@118.24.247.119
+spawn ssh admin@106.54.255.63
 expect {
         "*yes/no" { send "yes\r"; exp_continue }
         "*password:" { send "$password\r"; exp_continue }

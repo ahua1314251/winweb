@@ -24,7 +24,8 @@ public class Index2 {
     public String index(){
 
 
-        return "/pages/tables/data";
+//        return "/pages/index";
+        return "/pages/tables/index";
     }
 
 }
