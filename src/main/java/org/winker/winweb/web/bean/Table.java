@@ -1,4 +1,4 @@
-package org.winker.winweb.web;
+package org.winker.winweb.web.bean;
 
 public class Table {
 

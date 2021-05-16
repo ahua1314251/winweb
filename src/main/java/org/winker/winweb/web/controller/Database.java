@@ -6,7 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.winker.winweb.web.Table;
+import org.winker.winweb.result.ResultPageWrapper;
+import org.winker.winweb.web.bean.Table;
 import org.winker.winweb.web.service.DataBaseService;
 
 import java.sql.SQLException;
@@ -20,11 +21,12 @@ public class Database {
     DataBaseService dataBaseService;
 
     @ResponseBody
-    @GetMapping("/tablelist.json")
-    List<Table> getTableList() throws SQLException {
+    @GetMapping("/getTablelist.json")
+    ResultPageWrapper getTableList() throws SQLException {
         dataBaseService.initMysqlDatasource();
         System.out.println("getTableList");
-        return dataBaseService.getTableList();
+        List<Table> list  = dataBaseService.getTableList();
+        return ResultPageWrapper.ofSuccess(list);
 
     }
 

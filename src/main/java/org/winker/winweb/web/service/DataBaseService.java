@@ -2,7 +2,7 @@ package org.winker.winweb.web.service;
 
 
 import org.springframework.stereotype.Service;
-import org.winker.winweb.web.Table;
+import org.winker.winweb.web.bean.Table;
 
 import javax.sql.DataSource;
 import java.sql.ResultSet;
@@ -37,13 +37,14 @@ public class DataBaseService {
                 System.out.println(catalogsSet.getString(1));
             }
 
-            ResultSet tableSet =  map.get("test1").getConnection().getMetaData().getTables("mydb",null,null,null);
+            ResultSet tableSet =  map.get("test1").getConnection().getMetaData().getTables("mysql",null,null,null);
 
             while (tableSet.next()){
                 Table table = new Table();
                 table.setTableName(tableSet.getString("TABLE_NAME"));
-                table.setSchema(tableSet.getString("TYPE_CAT"));
-                System.out.println(tableSet.getString("TABLE_NAME"));
+                table.setSchema(tableSet.getString("TABLE_CAT"));
+//                System.out.println(tableSet.getString("TABLE_SCHEM")+tableSet.getString("TABLE_CAT")+tableSet.getString("TABLE_TYPE"));
+//                System.out.println(tableSet.getString("TABLE_NAME"));
                 tableList.add(table);
             }
             return tableList;
