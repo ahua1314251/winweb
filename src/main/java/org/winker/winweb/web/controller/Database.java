@@ -23,7 +23,6 @@ public class Database {
     @ResponseBody
     @GetMapping("/getTablelist.json")
     ResultPageWrapper getTableList() throws SQLException {
-        dataBaseService.initMysqlDatasource();
         System.out.println("getTableList");
         List<Table> list  = dataBaseService.getTableList();
         return ResultPageWrapper.ofSuccess(list);
