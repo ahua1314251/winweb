@@ -44,6 +44,19 @@ public class MysqlParser {
         return columns;
     }
 
+    private static List<String>  fillTemplate(Table ddl,List<String> template){
+        List<String> resultList = new ArrayList<>();
+        
+
+
+        return resultList;
+    }
+
+
+
+
+
+
     public static void main(String[] args) {
         String sql = "CREATE TABLE `search_index_community` (\n" +
                 "  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',\n" +
