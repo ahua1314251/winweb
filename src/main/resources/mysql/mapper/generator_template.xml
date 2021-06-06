@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.winker.winweb.dao.mysql.TableInfoMapper">
+
+
+
+    <select id="queryById" parameterType="long" resultType="org.winker.winweb.dao.mysql.entity.GeneratorTemplateDO">
+        select * from generator_template where id = #{id}
+    </select>
+
+
+    <select id="queryPage" parameterType="org.winker.winweb.dao.mysql.entity.GeneratorTemplateQuery" resultType="org.winker.winweb.dao.mysql.entity.GeneratorTemplateDO">
+        select * from generator_template where
+        1=1
+        <if test="template_name != null">
+            AND template_name = #{templateName}
+        </if>
+        <if test="dbType != null">
+            AND db_type = #{dbType}
+        </if>
+        <if test="id != null">
+            AND id = #{id}
+        </if>
+        <if test="template_type != null">
+            AND template_type = #{templateType}
+        </if>
+        <if test="status != null">
+            AND status = #{status}
+        </if>
+        limit #{pageNo},#{pageSize}
+    </select>
+
+
+</mapper>

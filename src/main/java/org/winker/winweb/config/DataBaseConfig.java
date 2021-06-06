@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.sql.DataSource;
-import javax.sql.PooledConnection;
 import java.sql.SQLException;
 
 @Configuration
@@ -42,6 +41,8 @@ public class DataBaseConfig {
         dataSource.init();
         return dataSource;
     }
+
+
 
 
 }
