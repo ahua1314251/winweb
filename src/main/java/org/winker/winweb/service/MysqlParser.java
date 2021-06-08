@@ -4,15 +4,19 @@ import com.alibaba.druid.sql.ast.SQLStatement;
 import com.alibaba.druid.sql.dialect.mysql.parser.MySqlStatementParser;
 import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlSchemaStatVisitor;
 import com.alibaba.druid.sql.parser.SQLStatementParser;
-import com.alibaba.druid.stat.TableStat;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.VelocityEngine;
 import org.winker.winweb.web.bean.Column;
 import org.winker.winweb.web.bean.Table;
 
+import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class MysqlParser {
+
+    private static VelocityEngine velocityEngine = new VelocityEngine();
 
     public static Table getTable(String sql){
         Table table = new Table();
@@ -44,17 +48,19 @@ public class MysqlParser {
         return columns;
     }
 
-    private static List<String>  fillTemplate(Table ddl,List<String> template){
+    private static List<String>  fillTemplate(Table ddl,List<String> templateList){
         List<String> resultList = new ArrayList<>();
-        
 
-
+        for(String templateStr : templateList){
+            Template template = velocityEngine.getTemplate(templateStr, "utf-8");
+            VelocityContext ctx = new VelocityContext();
+            ctx.put("table",ddl);
+            StringWriter sw = new StringWriter();
+            template.merge(ctx,sw);
+            resultList.add(sw.toString());
+        }
         return resultList;
     }
-
-
-
-
 
 
     public static void main(String[] args) {

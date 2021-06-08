@@ -5,8 +5,11 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.winker.winweb.dao.mysql.TableInfoMapper;
+import org.winker.winweb.dao.mysql.TemplateMapper;
 import org.winker.winweb.dao.mysql.entity.TableInfoDO;
 import org.winker.winweb.dao.mysql.entity.TableInfoQuery;
+import org.winker.winweb.dao.mysql.entity.TemplateDO;
+import org.winker.winweb.dao.mysql.entity.TemplateQuery;
 import org.winker.winweb.web.bean.Table;
 
 import javax.sql.DataSource;
@@ -27,6 +30,8 @@ public class DataBaseService implements InitializingBean {
     DataSource dataSource;
     @Autowired
     TableInfoMapper tableInfoMapper;
+    @Autowired
+    TemplateMapper templateMapper;
 
     public static Map<String, DataSource> map = new HashMap<>();
 
@@ -61,8 +66,8 @@ public class DataBaseService implements InitializingBean {
         return tableList;
     }
 
-    public TableInfoDO getTable() throws SQLException {
-        TableInfoDO tableInfoDO = tableInfoMapper.queryById(1L);
+    public TableInfoDO getTable(Long id) throws SQLException {
+        TableInfoDO tableInfoDO = tableInfoMapper.queryById(id);
         return tableInfoDO;
     }
 
@@ -71,10 +76,14 @@ public class DataBaseService implements InitializingBean {
         return tableInfoDOList;
     }
 
+    public List<TemplateDO> getTemplateList(TemplateQuery templateQuery){
+        List<TemplateDO> templateDOList = templateMapper.queryPage(templateQuery);
+        return templateDOList ;
+    }
 
-
-
-
+    public int updateTemplate(TemplateDO templateDO){
+        return templateMapper.update(templateDO);
+    }
 
     @Override
     public void afterPropertiesSet() throws Exception {

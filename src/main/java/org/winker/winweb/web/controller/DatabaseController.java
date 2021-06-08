@@ -2,12 +2,11 @@ package org.winker.winweb.web.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.winker.winweb.dao.mysql.entity.TableInfoDO;
 import org.winker.winweb.dao.mysql.entity.TableInfoQuery;
+import org.winker.winweb.dao.mysql.entity.TemplateDO;
+import org.winker.winweb.dao.mysql.entity.TemplateQuery;
 import org.winker.winweb.result.ResultPageWrapper;
 import org.winker.winweb.web.bean.Table;
 import org.winker.winweb.service.DataBaseService;
@@ -24,7 +23,7 @@ public class DatabaseController {
 
     @ResponseBody
     @GetMapping("/getTablelist2.json")
-    ResultPageWrapper getTableList() throws SQLException {
+    ResultPageWrapper getTableList2() throws SQLException {
         System.out.println("getTableList2");
         List<Table> list  = dataBaseService.getTableList2();
         return ResultPageWrapper.ofSuccess(list);
@@ -35,12 +34,26 @@ public class DatabaseController {
 
     @ResponseBody
     @GetMapping("/getTablelist.json")
-    ResultPageWrapper getTableList2() throws SQLException {
+    ResultPageWrapper getTableList() throws SQLException {
         TableInfoQuery tableInfoQuery = new TableInfoQuery();
         List<TableInfoDO>  tableInfoDOList= dataBaseService.getTableList(tableInfoQuery);
         return ResultPageWrapper.ofSuccess(tableInfoDOList);
 
     }
+    @ResponseBody
+    @GetMapping("/getTemplatelist.json")
+    ResultPageWrapper getTemplatelist() throws SQLException {
+        TemplateQuery tableInfoQuery = new TemplateQuery();
+        List<TemplateDO>  templateDOList= dataBaseService.getTemplateList(tableInfoQuery);
+        return ResultPageWrapper.ofSuccess(templateDOList);
 
+    }
+
+    @ResponseBody
+    @PostMapping("/updateTemplate.json")
+    ResultPageWrapper updateTemplate(@RequestBody TemplateDO templateDO) throws SQLException {
+        int result = dataBaseService.updateTemplate(templateDO);
+        return ResultPageWrapper.ofSuccess(result);
+    }
 
 }

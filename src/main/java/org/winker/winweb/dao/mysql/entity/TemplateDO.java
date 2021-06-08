@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 
-public class GeneratorTemplateDO implements Serializable {
+public class TemplateDO implements Serializable {
 
     private Long id ;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
