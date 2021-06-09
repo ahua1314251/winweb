@@ -3,6 +3,32 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.winker.winweb.dao.mysql.TemplateMapper">
 
+    <insert id="insert" parameterType="org.winker.winweb.dao.mysql.entity.TemplateDO" >
+        INSERT INTO template (
+        gmt_create,
+        gmt_modified,
+        template_name,
+        template_type,
+        dbType,
+        content,
+        status,
+        version
+        )
+        VALUES (
+        now(),
+        now(),
+        #{templateName},
+        #{templateType},
+        #{dbType},
+        #{content},
+        #{status},
+        #{version}
+        )
+        <selectKey keyProperty="id" resultType="java.lang.Integer">
+            select LAST_INSERT_ID() as id
+        </selectKey>
+    </insert>
+
 
     <select id="queryById" parameterType="long" resultType="org.winker.winweb.dao.mysql.entity.TemplateDO">
         select * from template where id = #{id}
@@ -35,6 +61,8 @@
     <update id="update" >
         update template
         <set >
+            gmt_modified = now(),
+            version = version+1,
             <if test="templateName != null">
                 template_name = #{templateName},
             </if>
@@ -50,7 +78,4 @@
         </set>
         where id = #{id}
     </update>
-
-
-
 </mapper>

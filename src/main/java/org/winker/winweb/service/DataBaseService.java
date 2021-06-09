@@ -85,6 +85,11 @@ public class DataBaseService implements InitializingBean {
         return templateMapper.update(templateDO);
     }
 
+    public int createTemplate(TemplateDO templateDO){
+        return templateMapper.insert(templateDO);
+    }
+
+
     @Override
     public void afterPropertiesSet() throws Exception {
         map.put("test1", dataSource);

@@ -56,4 +56,10 @@ public class DatabaseController {
         return ResultPageWrapper.ofSuccess(result);
     }
 
+    @ResponseBody
+    @PostMapping("/createTemplate.json")
+    ResultPageWrapper createTemplate(@RequestBody TemplateDO templateDO) throws SQLException {
+        int result = dataBaseService.createTemplate(templateDO);
+        return ResultPageWrapper.ofSuccess(result);
+    }
 }
