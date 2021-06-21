@@ -15,6 +15,8 @@ public interface TemplateMapper {
 
     TableInfoDO queryById(Long id);
 
+    List<TemplateDO> queryByNames(List<String> templateNames);
+
     List<TemplateDO> queryPage(TemplateQuery tableInfoQuery);
 
     int update(TemplateDO templateDO);

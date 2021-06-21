@@ -11,6 +11,7 @@ import org.winker.winweb.dao.mysql.entity.TableInfoQuery;
 import org.winker.winweb.dao.mysql.entity.TemplateDO;
 import org.winker.winweb.dao.mysql.entity.TemplateQuery;
 import org.winker.winweb.web.bean.Table;
+import org.winker.winweb.web.bean.TemplateBean;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -89,6 +90,18 @@ public class DataBaseService implements InitializingBean {
         return templateMapper.insert(templateDO);
     }
 
+    public List<TemplateBean>  createCode(String sql , List<String> templateNames){
+        Table table = MysqlParser.getTable(sql);
+        List<TemplateDO> templateDOList = templateMapper.queryByNames(templateNames);
+        List<TemplateBean> templateBeans = new ArrayList<>();
+        templateDOList.forEach(item ->{
+            TemplateBean templateBean = new TemplateBean();
+            templateBean.setContent(item.getContent());
+            templateBean.setTemplateName(item.getTemplateName());
+            templateBeans.add(templateBean);
+        });
+        return MysqlParser.fillTemplate(table,templateBeans);
+    }
 
     @Override
     public void afterPropertiesSet() throws Exception {

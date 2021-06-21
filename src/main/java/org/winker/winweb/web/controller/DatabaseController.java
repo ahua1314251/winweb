@@ -10,9 +10,11 @@ import org.winker.winweb.dao.mysql.entity.TemplateQuery;
 import org.winker.winweb.result.ResultPageWrapper;
 import org.winker.winweb.web.bean.Table;
 import org.winker.winweb.service.DataBaseService;
+import org.winker.winweb.web.bean.TemplateBean;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/database")
@@ -60,6 +62,15 @@ public class DatabaseController {
     @PostMapping("/createTemplate.json")
     ResultPageWrapper createTemplate(@RequestBody TemplateDO templateDO) throws SQLException {
         int result = dataBaseService.createTemplate(templateDO);
+        return ResultPageWrapper.ofSuccess(result);
+    }
+
+    @ResponseBody
+    @PostMapping("/createCode.json")
+    ResultPageWrapper createCode(@RequestBody Map<String,Object> map) throws SQLException {
+        String sql = map.get("sql").toString();
+        List<String> templateNames = (List<String>) map.get("templateNames");
+        List<TemplateBean> result = dataBaseService.createCode(sql,templateNames);
         return ResultPageWrapper.ofSuccess(result);
     }
 }

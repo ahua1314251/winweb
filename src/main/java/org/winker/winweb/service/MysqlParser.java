@@ -4,11 +4,11 @@ import com.alibaba.druid.sql.ast.statement.SQLCreateTableStatement;
 import com.alibaba.druid.sql.dialect.mysql.parser.MySqlCreateTableParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.winker.winweb.web.bean.Column;
 import org.winker.winweb.web.bean.Table;
+import org.winker.winweb.web.bean.TemplateBean;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -49,20 +49,18 @@ public class MysqlParser {
         return columns;
     }
 
-    private static List<String>  fillTemplate(Table ddl,List<String> templateList){
-        List<String> resultList = new ArrayList<>();
-
-        for(String templateStr : templateList){
-
+    public static List<TemplateBean>  fillTemplate(Table ddl, List<TemplateBean> templateBeans){
+        List<TemplateBean> resultList = new ArrayList<>();
+        for(TemplateBean templateBean : templateBeans){
             VelocityContext ctx = new VelocityContext();
             ctx.put("table",ddl);
             StringWriter sw = new StringWriter();
-            velocityEngine.evaluate(ctx,sw,"",templateStr);
-            resultList.add(sw.toString());
+            velocityEngine.evaluate(ctx,sw,"",templateBean.getContent());
+            templateBean.setResult(sw.toString());
+            resultList.add(templateBean);
         }
         return resultList;
     }
-
 
     public static void main(String[] args) throws JsonProcessingException {
         String sql = "CREATE TABLE search_index_community (\n" +
@@ -97,6 +95,6 @@ public class MysqlParser {
         ObjectMapper objectMapper = new ObjectMapper();
         Table table = getTable(sql);
         System.out.println(objectMapper.writeValueAsString(table));
-        System.out.println(fillTemplate(table, Arrays.asList("$table.tableName")));
+//        System.out.println(fillTemplate(table, Arrays.asList("$table.tableName")));
     }
 }
