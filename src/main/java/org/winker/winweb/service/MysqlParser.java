@@ -44,6 +44,7 @@ public class MysqlParser {
             column.setType(item.getDataType().getName());
             column.setTableName(statement.getTableName());
             column.setDbType(statement.getDbType());
+            column.setComment(item.getComment().toString());
             columns.add(column);
         });
         return columns;

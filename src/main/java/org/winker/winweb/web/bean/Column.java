@@ -8,6 +8,7 @@ public class Column {
     private String javaType;
     private String tableName;
     private DbType dbType;
+    private String comment;
 
     public String getName() {
         return name;
@@ -47,5 +48,13 @@ public class Column {
 
     public void setDbType(DbType dbType) {
         this.dbType = dbType;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

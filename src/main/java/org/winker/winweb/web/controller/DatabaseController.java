@@ -32,8 +32,6 @@ public class DatabaseController {
 
     }
 
-
-
     @ResponseBody
     @GetMapping("/getTablelist.json")
     ResultPageWrapper getTableList() throws SQLException {
