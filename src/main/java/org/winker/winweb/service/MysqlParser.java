@@ -6,8 +6,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.winker.winweb.web.bean.Column;
-import org.winker.winweb.web.bean.Table;
+import org.winker.winweb.utils.database.Column;
+import org.winker.winweb.utils.database.Table;
 import org.winker.winweb.web.bean.TemplateBean;
 
 import java.io.StringWriter;
@@ -41,7 +41,7 @@ public class MysqlParser {
         statement.getColumnDefinitions().forEach(item->{
             Column column = new Column();
             column.setName(item.getColumnName());
-            column.setType(item.getDataType().getName());
+            column.setTypeName(item.getDataType().getName());
             column.setTableName(statement.getTableName());
             column.setDbType(statement.getDbType());
             column.setComment(item.getComment().toString());

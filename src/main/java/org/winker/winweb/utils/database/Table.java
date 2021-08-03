@@ -1,44 +1,66 @@
 package org.winker.winweb.utils.database;
 
+import com.alibaba.druid.DbType;
+
 import java.util.List;
 
 
 public class Table {
 	private String tableName;
+    private String tableNameFU;
+    private String tableNameFL;
+    private String tableNameBean;
 	private List<Column> columns;
-	private String dbType;
+	private DbType dbType;
 	private String schema;
 
-	Table() {
+    public Table(){
 
-	}
+    }
 
 	public Table(String tableName) {
 		this.tableName = tableName;
+        this.tableNameFU = StringUtil.convertToFU(StringUtil.convertToHump(tableName));
+        this.tableNameFL= StringUtil.convertToHump(tableName);
+        this.tableNameBean=StringUtil.convertToHump(tableName);
 	}
 
-	public String gettableName() {
+	public String getTableName() {
 		return tableName;
 	}
 
-	public void settableName(String tableName) {
-		tableName = tableName;
+	public void setTableName(String tableName) {
+		this.tableName = tableName;
+		this.tableNameFU = StringUtil.convertToFU(StringUtil.convertToHump(tableName));
+        this.tableNameFL= StringUtil.convertToHump(tableName);
+        this.tableNameBean=StringUtil.convertToHump(tableName);
 	}
 
-	public String gettableNameFU() {
-		return StringUtil.convertToFU(StringUtil.convertToHump(tableName));
-	}
+    public String getTableNameFU() {
+        return tableNameFU;
+    }
 
-	public String gettableNameFL() {
-		return StringUtil.convertToHump(tableName);
-	}
+    public void setTableNameFU(String tableNameFU) {
+        this.tableNameFU = tableNameFU;
+    }
 
-	public String getTABLE_BEAN_NAME() {
-		return StringUtil.convertToHump(tableName);
-	}
+    public String getTableNameFL() {
+        return tableNameFL;
+    }
 
+    public void setTableNameFL(String tableNameFL) {
+        this.tableNameFL = tableNameFL;
+    }
 
-	public List<Column> getColumns() {
+    public String getTableNameBean() {
+        return tableNameBean;
+    }
+
+    public void setTableNameBean(String tableNameBean) {
+        this.tableNameBean = tableNameBean;
+    }
+
+    public List<Column> getColumns() {
 		return columns;
 	}
 
@@ -46,11 +68,11 @@ public class Table {
 		this.columns = columns;
 	}
 
-	public String getDbType() {
+	public DbType getDbType() {
 		return dbType;
 	}
 
-	public void setDbType(String dbType) {
+	public void setDbType(DbType dbType) {
 		this.dbType = dbType;
 	}
 

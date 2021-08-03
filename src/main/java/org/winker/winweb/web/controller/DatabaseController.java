@@ -66,9 +66,9 @@ public class DatabaseController {
     @ResponseBody
     @PostMapping("/createCode.json")
     ResultPageWrapper createCode(@RequestBody Map<String,Object> map) throws SQLException {
-        String sql = map.get("sql").toString();
+        Long sqlId = Long.parseLong(map.get("sqlId").toString());
         List<String> templateNames = (List<String>) map.get("templateNames");
-        List<TemplateBean> result = dataBaseService.createCode(sql,templateNames);
+        List<TemplateBean> result = dataBaseService.createCode(sqlId,templateNames);
         return ResultPageWrapper.ofSuccess(result);
     }
 }
