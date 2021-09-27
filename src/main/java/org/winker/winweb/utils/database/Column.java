@@ -14,26 +14,10 @@ public class Column {
     private String comment;
     private String nullAble;
     private String beanName;
+    private String methodName;
     private String size;
 
     public Column() {
-
-    }
-
-    public Column(String name, String typeName, String size,
-                  String nullAble) {
-        super();
-        name = name;
-        typeName = typeName;
-        size = size;
-        nullAble = nullAble;
-        if (typeName.equalsIgnoreCase("char") || typeName.equalsIgnoreCase("nvarchar") || typeName.equalsIgnoreCase("varchar")) {
-            size = "(" + size + ")";
-        } else {
-            size = "";
-        }
-        typeName = typeName.toUpperCase();
-        beanName = StringUtil.convertToHump(name);
     }
 
     public String getname() {
@@ -49,7 +33,7 @@ public class Column {
     }
 
     public void setname(String name) {
-        name = name;
+        this.name = name;
     }
 
     public String gettypeName() {
@@ -69,25 +53,32 @@ public class Column {
         return typeName;
     }
 
-    public String getTypeNameJava() {
-        if (typeName.equalsIgnoreCase("datetime")) {
-            return "Date";
-        }
+    public void setTypeName(String typeName) {
         if (typeName.equalsIgnoreCase("char") || typeName.equalsIgnoreCase("nvarchar") || typeName.equalsIgnoreCase("varchar")) {
-            return "String";
+            this.size = "(" + size + ")";
+        } else {
+            this.size = "";
         }
-        if (typeName.equalsIgnoreCase("INT")) {
-            return "int";
+        typeName = typeName.toUpperCase();
+        this.typeName = typeName;
+
+        if (typeName.equalsIgnoreCase("datetime")) {
+            this.javaType = "Date";
+        }
+        if (typeName.equalsIgnoreCase("char") || typeName.equalsIgnoreCase("nvarchar")
+                || typeName.equalsIgnoreCase("varchar") || typeName.equalsIgnoreCase("mediumtext")
+                || typeName.equalsIgnoreCase("text") || typeName.equalsIgnoreCase("tinytext")) {
+            this.javaType = "String";
+        }
+        if (typeName.equalsIgnoreCase("INT") || typeName.equalsIgnoreCase("TINYINT")) {
+            this.javaType = "Integer";
+        }
+        if (typeName.equalsIgnoreCase("BIGINT")) {
+            this.javaType = "Long";
         }
         if (typeName.equalsIgnoreCase("BIT")) {
-            return "boolean";
+            this.javaType = "Boolean";
         }
-
-        return typeName;
-    }
-
-    public void setTypeName(String typeName) {
-        typeName = typeName;
     }
 
     public String getSize() {
@@ -103,7 +94,7 @@ public class Column {
     }
 
     public void setNullAble(String nullAble) {
-        nullAble = nullAble;
+        this.nullAble = nullAble;
     }
 
     public String getBeanName() {
@@ -111,7 +102,7 @@ public class Column {
     }
 
     public void setBeanName(String beanName) {
-        beanName = beanName;
+        this.beanName = beanName;
     }
 
     public String getTableName() {
@@ -128,6 +119,8 @@ public class Column {
 
     public void setName(String name) {
         this.name = name;
+        this.beanName = StringUtil.convertToHump(name);
+        this.methodName = StringUtil.convertToFU(this.beanName);
     }
 
     public String getTypeName() {
@@ -160,5 +153,13 @@ public class Column {
 
     public String getNullAble() {
         return nullAble;
+    }
+
+    public String getMethodName() {
+        return methodName;
+    }
+
+    public void setMethodName(String methodName) {
+        this.methodName = methodName;
     }
 }

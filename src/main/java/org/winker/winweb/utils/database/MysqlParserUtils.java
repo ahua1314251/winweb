@@ -1,21 +1,24 @@
-package org.winker.winweb.service;
+package org.winker.winweb.utils.database;
 
 import com.alibaba.druid.sql.ast.statement.SQLCreateTableStatement;
 import com.alibaba.druid.sql.dialect.mysql.parser.MySqlCreateTableParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.io.FileUtils;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.winker.winweb.utils.database.Column;
 import org.winker.winweb.utils.database.Table;
 import org.winker.winweb.web.bean.TemplateBean;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MysqlParser {
+public class MysqlParserUtils {
 
     private static VelocityEngine velocityEngine = new VelocityEngine();
 
@@ -29,7 +32,7 @@ public class MysqlParser {
         SQLCreateTableStatement statement = parser.parseCreateTable();
         List<Column> columns = convertColumns(statement);
         table.setDbType(statement.getDbType());
-        table.setTableName(columns.get(0).getTableName());
+        table.setName(columns.get(0).getTableName());
         table.setColumns(columns);
         table.setSchema(statement.getSchema());
         return table;
@@ -63,7 +66,7 @@ public class MysqlParser {
         return resultList;
     }
 
-    public static void main(String[] args) throws JsonProcessingException {
+    public static void main(String[] args) throws IOException {
         String sql = "CREATE TABLE search_index_community (\n" +
                 "  id bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',\n" +
                 "  gmt_create datetime NOT NULL COMMENT '创建时间',\n" +
@@ -95,7 +98,9 @@ public class MysqlParser {
                 ") ENGINE=InnoDB AUTO_INCREMENT=305259 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='开发者社区索引内容表'";
         ObjectMapper objectMapper = new ObjectMapper();
         Table table = getTable(sql);
-        System.out.println(objectMapper.writeValueAsString(table));
-//        System.out.println(fillTemplate(table, Arrays.asList("$table.tableName")));
+//        System.out.println(objectMapper.writeValueAsString(table));
+
+        String content = FileUtils.readFileToString(new File("/Users/tom/git/winweb/templates/DO.vm"),"utf-8");
+        System.out.println(fillTemplate(table, Arrays.asList(new TemplateBean("test",content,""))).get(0).getResult());
     }
 }

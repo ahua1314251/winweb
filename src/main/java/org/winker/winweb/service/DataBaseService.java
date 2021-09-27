@@ -93,7 +93,7 @@ public class DataBaseService implements InitializingBean {
 
     public List<TemplateBean>  createCode(Long sqlId , List<String> templateNames){
         String sql = tableInfoMapper.queryById(sqlId).getSql().replaceAll("`","");
-        org.winker.winweb.utils.database.Table table = MysqlParser.getTable(sql);
+        org.winker.winweb.utils.database.Table table = MysqlParserUtils.getTable(sql);
         List<TemplateDO> templateDOList = templateMapper.queryByNames(templateNames);
         List<TemplateBean> templateBeans = new ArrayList<>();
         templateDOList.forEach(item ->{
@@ -102,7 +102,7 @@ public class DataBaseService implements InitializingBean {
             templateBean.setTemplateName(item.getTemplateName());
             templateBeans.add(templateBean);
         });
-        return MysqlParser.fillTemplate(table,templateBeans);
+        return MysqlParserUtils.fillTemplate(table,templateBeans);
     }
 
     @Override

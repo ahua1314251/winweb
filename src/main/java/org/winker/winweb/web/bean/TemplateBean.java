@@ -5,6 +5,18 @@ public class TemplateBean {
     String content;
     String result;
 
+    public TemplateBean() {
+
+    }
+
+    public TemplateBean(String templateName,
+                        String content,
+                        String result) {
+        this.templateName = templateName;
+        this.content = content;
+        this.result = result;
+    }
+
     public String getTemplateName() {
         return templateName;
     }

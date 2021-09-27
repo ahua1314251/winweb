@@ -6,10 +6,9 @@ import java.util.List;
 
 
 public class Table {
-	private String tableName;
-    private String tableNameFU;
-    private String tableNameFL;
-    private String tableNameBean;
+	private String name;
+    private String beanName;
+    private String methodName;
 	private List<Column> columns;
 	private DbType dbType;
 	private String schema;
@@ -18,49 +17,39 @@ public class Table {
 
     }
 
-	public Table(String tableName) {
-		this.tableName = tableName;
-        this.tableNameFU = StringUtil.convertToFU(StringUtil.convertToHump(tableName));
-        this.tableNameFL= StringUtil.convertToHump(tableName);
-        this.tableNameBean=StringUtil.convertToHump(tableName);
+	public Table(String name) {
+		this.name = name;
+		this.beanName=StringUtil.convertToHump(name);
+        this.methodName = StringUtil.convertToFU(this.beanName);
 	}
 
-	public String getTableName() {
-		return tableName;
+	public String getName() {
+		return name;
 	}
 
-	public void setTableName(String tableName) {
-		this.tableName = tableName;
-		this.tableNameFU = StringUtil.convertToFU(StringUtil.convertToHump(tableName));
-        this.tableNameFL= StringUtil.convertToHump(tableName);
-        this.tableNameBean=StringUtil.convertToHump(tableName);
+	public void setName(String name) {
+		this.name = name;
+		this.beanName=StringUtil.convertToHump(name);
+		this.methodName = StringUtil.convertToFU(this.beanName);
 	}
 
-    public String getTableNameFU() {
-        return tableNameFU;
-    }
+	public String getBeanName() {
+		return beanName;
+	}
 
-    public void setTableNameFU(String tableNameFU) {
-        this.tableNameFU = tableNameFU;
-    }
+	public void setBeanName(String beanName) {
+		this.beanName = beanName;
+	}
 
-    public String getTableNameFL() {
-        return tableNameFL;
-    }
+	public String getMethodName() {
+		return methodName;
+	}
 
-    public void setTableNameFL(String tableNameFL) {
-        this.tableNameFL = tableNameFL;
-    }
+	public void setMethodName(String methodName) {
+		this.methodName = methodName;
+	}
 
-    public String getTableNameBean() {
-        return tableNameBean;
-    }
-
-    public void setTableNameBean(String tableNameBean) {
-        this.tableNameBean = tableNameBean;
-    }
-
-    public List<Column> getColumns() {
+	public List<Column> getColumns() {
 		return columns;
 	}
 
