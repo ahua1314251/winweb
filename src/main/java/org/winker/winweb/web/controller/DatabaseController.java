@@ -10,7 +10,7 @@ import org.winker.winweb.dao.mysql.entity.TemplateQuery;
 import org.winker.winweb.result.ResultPageWrapper;
 import org.winker.winweb.web.bean.Table;
 import org.winker.winweb.service.DataBaseService;
-import org.winker.winweb.web.bean.TemplateBean;
+import org.winker.winweb.web.bean.TemplateEntity;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -68,7 +68,17 @@ public class DatabaseController {
     ResultPageWrapper createCode(@RequestBody Map<String,Object> map) throws SQLException {
         Long sqlId = Long.parseLong(map.get("sqlId").toString());
         List<String> templateNames = (List<String>) map.get("templateNames");
-        List<TemplateBean> result = dataBaseService.createCode(sqlId,templateNames);
+        List<TemplateEntity> result = dataBaseService.createCode(sqlId,templateNames);
         return ResultPageWrapper.ofSuccess(result);
     }
+
+    @ResponseBody
+    @PostMapping("/downloadCode.json")
+    ResultPageWrapper downloadCode(@RequestBody Map<String,Object> map) throws SQLException {
+        Long sqlId = Long.parseLong(map.get("sqlId").toString());
+        List<String> templateNames = (List<String>) map.get("templateNames");
+        List<TemplateEntity> result = dataBaseService.createCode(sqlId,templateNames);
+        return ResultPageWrapper.ofSuccess(result);
+    }
+
 }

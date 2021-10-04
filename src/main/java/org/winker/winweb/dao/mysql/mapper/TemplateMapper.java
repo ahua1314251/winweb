@@ -1,4 +1,4 @@
-package org.winker.winweb.dao.mysql;
+package org.winker.winweb.dao.mysql.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.winker.winweb.dao.mysql.entity.TableInfoDO;
@@ -20,3 +20,7 @@ public interface TemplateMapper {
 
     int insert(TemplateDO templateDO);
 }
+
+
+
+

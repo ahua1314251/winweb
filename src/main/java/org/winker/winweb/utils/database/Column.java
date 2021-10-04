@@ -13,7 +13,7 @@ public class Column {
     private DbType dbType;
     private String comment;
     private String nullAble;
-    private String beanName;
+    private String entityName;
     private String methodName;
     private String size;
 
@@ -97,12 +97,12 @@ public class Column {
         this.nullAble = nullAble;
     }
 
-    public String getBeanName() {
-        return beanName;
+    public String getEntityName() {
+        return entityName;
     }
 
-    public void setBeanName(String beanName) {
-        this.beanName = beanName;
+    public void setEntityName(String entityName) {
+        this.entityName = entityName;
     }
 
     public String getTableName() {
@@ -119,8 +119,8 @@ public class Column {
 
     public void setName(String name) {
         this.name = name;
-        this.beanName = StringUtil.convertToHump(name);
-        this.methodName = StringUtil.convertToFU(this.beanName);
+        this.entityName = StringUtil.convertToHump(name);
+        this.methodName = StringUtil.convertToFU(this.entityName);
     }
 
     public String getTypeName() {

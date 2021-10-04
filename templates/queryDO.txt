@@ -1,0 +1,25 @@
+package ${table.basePath}.entity;
+import java.io.Serializable;
+import java.util.Date;
+
+
+public class ${table.methodName}Query extends BaseQuery{
+
+#foreach($column in $table.columns)
+#if($column.entityName !='id' || $column.entityName !='gmtModified' || $column.entityName !='gmtCreate' || $column.entityName !='version')
+   private $column.javaType $column.entityName;
+#end
+#end
+
+#foreach( $column in $table.columns)
+#if($column.entityName !='id' || $column.entityName !='gmtModified' || $column.entityName !='gmtCreate' || $column.entityName !='version')
+   public $column.javaType get${column.methodName}(){
+      return this.$column.entityName;
+   }
+
+   public void set${column.methodName}($column.javaType $column.entityName){
+      this.$column.entityName = $column.entityName;
+   }
+#end
+#end
+}

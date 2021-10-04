@@ -1,0 +1,21 @@
+package ${table.basePath}.mapper;
+
+import org.apache.ibatis.annotations.Mapper;
+import ${table.basePath}.entity.${table.methodName}DO;
+import ${table.basePath}.entity.${table.methodName}Query;
+
+import java.util.List;
+
+@Mapper
+public interface ${table.methodName}Mapper {
+
+    ${table.methodName}DO queryById(Long id);
+
+    List<${table.methodName}DO> queryPage(${table.methodName}Query query);
+
+    int update(${table.methodName}DO ${table.entityName}DO);
+
+    int insert(${table.methodName}DO ${table.entityName}DO);
+
+    int deleteById(Long id);
+}

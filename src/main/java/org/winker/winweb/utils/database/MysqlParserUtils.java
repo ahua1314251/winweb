@@ -2,21 +2,20 @@ package org.winker.winweb.utils.database;
 
 import com.alibaba.druid.sql.ast.statement.SQLCreateTableStatement;
 import com.alibaba.druid.sql.dialect.mysql.parser.MySqlCreateTableParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.winker.winweb.utils.database.Column;
-import org.winker.winweb.utils.database.Table;
-import org.winker.winweb.web.bean.TemplateBean;
+import org.winker.winweb.common.Constant;
+import org.winker.winweb.web.bean.TemplateEntity;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.StringWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 public class MysqlParserUtils {
 
@@ -47,23 +46,48 @@ public class MysqlParserUtils {
             column.setTypeName(item.getDataType().getName());
             column.setTableName(statement.getTableName());
             column.setDbType(statement.getDbType());
-            column.setComment(item.getComment().toString());
+            String comment = item.getComment()==null?"":item.getComment().toString();
+            column.setComment(comment.replace(Constant.SINGLE_QUOTATION_MARK,""));
             columns.add(column);
         });
         return columns;
     }
 
-    public static List<TemplateBean>  fillTemplate(Table ddl, List<TemplateBean> templateBeans){
-        List<TemplateBean> resultList = new ArrayList<>();
-        for(TemplateBean templateBean : templateBeans){
+    public static List<TemplateEntity>  fillTemplate(Table ddl, List<TemplateEntity> templateEntities){
+        List<TemplateEntity> resultList = new ArrayList<>();
+        for(TemplateEntity templateEntity : templateEntities){
             VelocityContext ctx = new VelocityContext();
             ctx.put("table",ddl);
             StringWriter sw = new StringWriter();
-            velocityEngine.evaluate(ctx,sw,"",templateBean.getContent());
-            templateBean.setResult(sw.toString());
-            resultList.add(templateBean);
+            StringWriter sw2 = new StringWriter();
+            velocityEngine.evaluate(ctx,sw,"", templateEntity.getContent());
+            templateEntity.setResult(sw.toString());;
+
+            velocityEngine.evaluate(ctx,sw2,"", StringUtils.defaultIfEmpty(templateEntity.getFileName(),""));
+            templateEntity.setFileName(sw2.toString());
+            resultList.add(templateEntity);
         }
         return resultList;
+    }
+
+    public static void resultToZip(List<TemplateEntity> templateEntityList) throws IOException {
+        String tempPath = FileUtils.getTempDirectoryPath();
+        ZipOutputStream zos = new ZipOutputStream(new FileOutputStream("/Users/tom/a.zip"));
+
+        for(TemplateEntity templateEntity : templateEntityList){
+
+            File tempFile = File.createTempFile("temp",".txt");
+            ZipEntry zipEntry = new ZipEntry("ahua");
+            zos.putNextEntry(zipEntry);
+            System.out.println(tempFile.getAbsolutePath());
+            FileInputStream tempFileInputStream = new FileInputStream(tempFile);
+            int data = 0;
+
+            while ((data=tempFileInputStream.read())!=-1) {
+                zos.write(tempFileInputStream.read());
+            }
+        }
+
     }
 
     public static void main(String[] args) throws IOException {
@@ -100,7 +124,12 @@ public class MysqlParserUtils {
         Table table = getTable(sql);
 //        System.out.println(objectMapper.writeValueAsString(table));
 
-        String content = FileUtils.readFileToString(new File("/Users/tom/git/winweb/templates/DO.vm"),"utf-8");
-        System.out.println(fillTemplate(table, Arrays.asList(new TemplateBean("test",content,""))).get(0).getResult());
+        String content = FileUtils.readFileToString(new File("/Users/tom/git/winweb/templates/mybatis.xml"),"utf-8");
+        List<TemplateEntity> templateEntityList = fillTemplate(table, Arrays.asList(new TemplateEntity("test",content,"","${table.name}.xml")));
+
+
+        System.out.println(templateEntityList.get(0).getResult());
+
+        resultToZip(templateEntityList);
     }
 }

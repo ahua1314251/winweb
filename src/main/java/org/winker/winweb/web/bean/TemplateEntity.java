@@ -1,20 +1,22 @@
 package org.winker.winweb.web.bean;
 
-public class TemplateBean {
+import org.apache.commons.lang.StringUtils;
+
+public class TemplateEntity {
     String templateName;
     String content;
     String result;
+    String fileName;
 
-    public TemplateBean() {
+    public TemplateEntity() {
 
     }
 
-    public TemplateBean(String templateName,
-                        String content,
-                        String result) {
+    public TemplateEntity(String templateName, String content, String result, String fileName) {
         this.templateName = templateName;
         this.content = content;
         this.result = result;
+        this.fileName = StringUtils.defaultIfEmpty(fileName,templateName);
     }
 
     public String getTemplateName() {
@@ -39,5 +41,13 @@ public class TemplateBean {
 
     public void setResult(String result) {
         this.result = result;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 }

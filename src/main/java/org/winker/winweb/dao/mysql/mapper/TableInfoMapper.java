@@ -1,4 +1,4 @@
-package org.winker.winweb.dao.mysql;
+package org.winker.winweb.dao.mysql.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.winker.winweb.dao.mysql.entity.TableInfoDO;
@@ -11,5 +11,11 @@ public interface TableInfoMapper {
 
     TableInfoDO queryById(Long id);
 
-    List<TableInfoDO> queryPage(TableInfoQuery tableInfoQuery);
+    List<TableInfoDO> queryPage(TableInfoQuery query);
+
+    int update(TableInfoDO tableInfoDO);
+
+    int insert(TableInfoDO tableInfoDO);
+
+    int deleteById(Long id);
 }

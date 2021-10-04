@@ -1,5 +1,4 @@
 package org.winker.winweb.dao.mysql.entity;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
@@ -8,48 +7,73 @@ import java.util.Date;
 
 public class TemplateDO implements Serializable {
 
-    private Long id ;
+
+    /**主键**/
+    private Long id;
+
+    /**创建时间**/
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date gmtCreate;
+
+    /**修改时间**/
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date gmtModified;
-    private String templateName;
-    private String dbType;
-    private String templateType;
-    private String content;
-    private int status;
-    private int version;
 
-    public Long getId() {
-        return id;
+    /**模板名称**/
+    private String templateName;
+
+    /**模板类型 自定义，系统**/
+    private String templateType;
+
+    /**数据库类型**/
+    private String dbType;
+
+    /**模板内容**/
+    private String content;
+
+    /**状态1,0**/
+    private Integer status;
+
+    /**数据版本控制**/
+    private Integer version;
+
+    /****/
+    private String fileName;
+
+    public Long getId(){
+        return this.id;
     }
 
-    public void setId(Long id) {
+    public void setId(Long id){
         this.id = id;
     }
-
-    public Date getGmtCreate() {
-        return gmtCreate;
+    public Date getGmtCreate(){
+        return this.gmtCreate;
     }
 
-    public void setGmtCreate(Date gmtCreate) {
+    public void setGmtCreate(Date gmtCreate){
         this.gmtCreate = gmtCreate;
     }
-
-    public Date getGmtModified() {
-        return gmtModified;
+    public Date getGmtModified(){
+        return this.gmtModified;
     }
 
-    public void setGmtModified(Date gmtModified) {
+    public void setGmtModified(Date gmtModified){
         this.gmtModified = gmtModified;
     }
-
-    public String getTemplateName() {
-        return templateName;
+    public String getTemplateName(){
+        return this.templateName;
     }
 
-    public void setTemplateName(String templateName) {
+    public void setTemplateName(String templateName){
         this.templateName = templateName;
+    }
+    public String getTemplateType(){
+        return this.templateType;
+    }
+
+    public void setTemplateType(String templateType){
+        this.templateType = templateType;
     }
 
     public String getDbType() {
@@ -60,35 +84,32 @@ public class TemplateDO implements Serializable {
         this.dbType = dbType;
     }
 
-    public String getTemplateType() {
-        return templateType;
+    public String getContent(){
+        return this.content;
     }
 
-    public void setTemplateType(String templateType) {
-        this.templateType = templateType;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
+    public void setContent(String content){
         this.content = content;
     }
-
-    public int getStatus() {
-        return status;
+    public Integer getStatus(){
+        return this.status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status){
         this.status = status;
     }
-
-    public int getVersion() {
-        return version;
+    public Integer getVersion(){
+        return this.version;
     }
 
-    public void setVersion(int version) {
+    public void setVersion(Integer version){
         this.version = version;
+    }
+    public String getFileName(){
+        return this.fileName;
+    }
+
+    public void setFileName(String fileName){
+        this.fileName = fileName;
     }
 }

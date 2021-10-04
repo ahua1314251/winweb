@@ -1,7 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.winker.winweb.dao.mysql.TableInfoMapper">
+<mapper namespace="org.winker.winweb.dao.mysql.mapper.TableInfoMapper">
+
+    <insert id="insert" parameterType="org.winker.winweb.dao.mysql.entity.TableInfoDO" >
+        INSERT INTO table_info (
+        id,
+        gmt_create,
+        gmt_modified,
+        table_name,
+        db_name,
+        db_type,
+        sql,
+        body,
+        status,
+        version,
+        base_path)
+        VALUES (
+        id,
+        now(),
+        now(),
+        tableName,
+        dbName,
+        dbType,
+        sql,
+        body,
+        status,
+        version,
+        basePath)
+        <selectKey keyProperty="id" resultType="java.lang.Integer">
+            select LAST_INSERT_ID() as id
+        </selectKey>
+    </insert>
+
+
     <select id="queryById" parameterType="long" resultType="org.winker.winweb.dao.mysql.entity.TableInfoDO">
         select * from table_info where id = #{id}
     </select>
@@ -10,17 +42,23 @@
     <select id="queryPage" parameterType="org.winker.winweb.dao.mysql.entity.TableInfoQuery" resultType="org.winker.winweb.dao.mysql.entity.TableInfoDO">
         select * from table_info where
         1=1
-        <if test="tableName != null">
-            AND table_name = #{tableName}
-        </if>
-        <if test="dbType != null">
-            AND db_type = #{dbType}
-        </if>
         <if test="id != null">
             AND id = #{id}
         </if>
+        <if test="gmtCreate != null">
+            AND gmt_create = #{gmtCreate}
+        </if>
+        <if test="gmtModified != null">
+            AND gmt_modified = #{gmtModified}
+        </if>
+        <if test="tableName != null">
+            AND table_name = #{tableName}
+        </if>
         <if test="dbName != null">
             AND db_name = #{dbName}
+        </if>
+        <if test="dbType != null">
+            AND db_type = #{dbType}
         </if>
         <if test="sql != null">
             AND sql = #{sql}
@@ -31,8 +69,47 @@
         <if test="status != null">
             AND status = #{status}
         </if>
+        <if test="version != null">
+            AND version = #{version}
+        </if>
+        <if test="basePath != null">
+            AND base_path = #{basePath}
+        </if>
         limit #{pageNo},#{pageSize}
     </select>
 
+    <update id="update" parameterType="org.winker.winweb.dao.mysql.entity.TableInfoDO">
+        update table_info
+        <set >
+            <if test="tableName != null">
+                table_name = #{tableName},
+            </if>
+            <if test="dbName != null">
+                db_name = #{dbName},
+            </if>
+            <if test="dbType != null">
+                db_type = #{dbType},
+            </if>
+            <if test="sql != null">
+                sql = #{sql},
+            </if>
+            <if test="body != null">
+                body = #{body},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="basePath != null">
+                base_path = #{basePath},
+            </if>
+            gmt_modified = now(),
+            version = version+1,
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="long" >
+        delete from table_info where id = #{id}
+    </delete>
 
 </mapper>

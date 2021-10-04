@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.winker.winweb.dao.mysql.TemplateMapper">
+<mapper namespace="org.winker.winweb.dao.mysql.mapper.TemplateMapper">
 
     <insert id="insert" parameterType="org.winker.winweb.dao.mysql.entity.TemplateDO" >
         INSERT INTO template (
+        id,
         gmt_create,
         gmt_modified,
         template_name,
         template_type,
+        db_type,
+        content,
+        status,
+        version,
+        file_name)
+        VALUES (
+        id,
+        now(),
+        now(),
+        templateName,
+        templateType,
         dbType,
         content,
         status,
-        version
-        )
-        VALUES (
-        now(),
-        now(),
-        #{templateName},
-        #{templateType},
-        #{dbType},
-        #{content},
-        #{status},
-        #{version}
-        )
+        version,
+        fileName)
         <selectKey keyProperty="id" resultType="java.lang.Integer">
             select LAST_INSERT_ID() as id
         </selectKey>
@@ -35,43 +37,45 @@
     </select>
 
 
-    <select id="queryPage" parameterType="org.winker.winweb.dao.mysql.entity.TemplateQuery"
-            resultType="org.winker.winweb.dao.mysql.entity.TemplateDO">
+    <select id="queryPage" parameterType="org.winker.winweb.dao.mysql.entity.TemplateQuery" resultType="org.winker.winweb.dao.mysql.entity.TemplateDO">
         select * from template where
         1=1
-        <if test="templateName != null">
-            AND template_name = #{templateName}
-        </if>
-        <if test="dbType != null">
-            AND db_type = #{dbType}
-        </if>
         <if test="id != null">
             AND id = #{id}
+        </if>
+        <if test="gmtCreate != null">
+            AND gmt_create = #{gmtCreate}
+        </if>
+        <if test="gmtModified != null">
+            AND gmt_modified = #{gmtModified}
+        </if>
+        <if test="templateName != null">
+            AND template_name = #{templateName}
         </if>
         <if test="templateType != null">
             AND template_type = #{templateType}
         </if>
+        <if test="dbtype != null">
+            AND db_type = #{dbtype}
+        </if>
+        <if test="content != null">
+            AND content = #{content}
+        </if>
         <if test="status != null">
             AND status = #{status}
+        </if>
+        <if test="version != null">
+            AND version = #{version}
+        </if>
+        <if test="fileName != null">
+            AND file_name = #{fileName}
         </if>
         limit #{pageNo},#{pageSize}
     </select>
 
-    <select id="queryByNames" parameterType="list"
-            resultType="org.winker.winweb.dao.mysql.entity.TemplateDO">
-        select * from template where
-        1=1 and template_name in
-        <foreach item="item" collection="list" separator="," open="(" close=")" index="">
-                   #{item}
-        </foreach>
-    </select>
-
-
-    <update id="update" >
+    <update id="update" parameterType="org.winker.winweb.dao.mysql.entity.TemplateDO">
         update template
         <set >
-            gmt_modified = now(),
-            version = version+1,
             <if test="templateName != null">
                 template_name = #{templateName},
             </if>
@@ -79,12 +83,34 @@
                 template_type = #{templateType},
             </if>
             <if test="dbType != null">
-                dbType = #{dbType},
+                db_type = #{dbType},
             </if>
             <if test="content != null">
                 content = #{content},
             </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="fileName != null">
+                file_name = #{fileName},
+            </if>
+            gmt_modified = now(),
+            version = version+1,
         </set>
         where id = #{id}
     </update>
+
+    <delete id="deleteById" parameterType="long" >
+        delete from template where id = #{id}
+    </delete>
+
+    <select id="queryByNames" parameterType="list"
+            resultType="org.winker.winweb.dao.mysql.entity.TemplateDO">
+        select * from template where
+        1=1 and template_name in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="">
+            #{item}
+        </foreach>
+    </select>
 </mapper>
+

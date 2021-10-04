@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="${table.basePath}.mapper.${table.methodName}Mapper">
+
+    <insert id="insert" parameterType="${table.basePath}.entity.${table.methodName}DO" >
+        INSERT INTO ${table.name} (
+#foreach($column in $table.columns)
+        $column.name#if($foreach.hasNext()),
+#end
+#end)
+        VALUES (
+#foreach($column in $table.columns)
+#if($column.entityName =='gmtModified' || $column.entityName =='gmtCreate')
+        now()#if($foreach.hasNext()),
+#end
+#else
+        $column.entityName#if($foreach.hasNext()),
+#end
+#end
+#end)
+        <selectKey keyProperty="id" resultType="java.lang.Integer">
+            select LAST_INSERT_ID() as id
+        </selectKey>
+    </insert>
+
+
+    <select id="queryById" parameterType="long" resultType="${table.basePath}.entity.${table.methodName}DO">
+        select * from ${table.name} where id = #{id}
+    </select>
+
+
+    <select id="queryPage" parameterType="${table.basePath}.entity.${table.methodName}Query" resultType="${table.basePath}.entity.${table.methodName}DO">
+        select * from ${table.name} where
+        1=1
+#foreach($column in $table.columns)
+        <if test="${column.entityName} != null">
+            AND ${column.name} = #{${column.entityName}}
+        </if>
+#end
+        limit #{pageNo},#{pageSize}
+    </select>
+
+    <update id="update" parameterType="${table.basePath}.entity.${table.methodName}DO">
+        update ${table.name}
+        <set >
+#foreach($column in $table.columns)
+#if($column.name !='id' && $column.name !='gmt_modified' && $column.name !='version' && $column.name !='gmt_create')
+            <if test="${column.entityName} != null">
+                ${column.name} = #{${column.entityName}},
+            </if>
+#end#end
+            gmt_modified = now(),
+            version = version+1,
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="long" >
+        delete from ${table.name} where id = #{id}
+    </delete>
+
+</mapper>

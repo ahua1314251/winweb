@@ -6,8 +6,9 @@ import java.util.List;
 
 
 public class Table {
+	private String basePath ="org.winker.winweb.dao.mysql";
 	private String name;
-    private String beanName;
+    private String entityName;
     private String methodName;
 	private List<Column> columns;
 	private DbType dbType;
@@ -19,8 +20,8 @@ public class Table {
 
 	public Table(String name) {
 		this.name = name;
-		this.beanName=StringUtil.convertToHump(name);
-        this.methodName = StringUtil.convertToFU(this.beanName);
+		this.entityName=StringUtil.convertToHump(name);
+        this.methodName = StringUtil.convertToFU(this.entityName);
 	}
 
 	public String getName() {
@@ -29,16 +30,16 @@ public class Table {
 
 	public void setName(String name) {
 		this.name = name;
-		this.beanName=StringUtil.convertToHump(name);
-		this.methodName = StringUtil.convertToFU(this.beanName);
+		this.entityName=StringUtil.convertToHump(name);
+		this.methodName = StringUtil.convertToFU(this.entityName);
 	}
 
-	public String getBeanName() {
-		return beanName;
+	public String getEntityName() {
+		return entityName;
 	}
 
-	public void setBeanName(String beanName) {
-		this.beanName = beanName;
+	public void setEntityName(String entityName) {
+		this.entityName = entityName;
 	}
 
 	public String getMethodName() {
@@ -73,4 +74,11 @@ public class Table {
 		this.schema = schema;
 	}
 
+	public String getBasePath() {
+		return basePath;
+	}
+
+	public void setBasePath(String basePath) {
+		this.basePath = basePath;
+	}
 }

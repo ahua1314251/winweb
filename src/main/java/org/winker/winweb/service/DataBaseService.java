@@ -4,14 +4,14 @@ package org.winker.winweb.service;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.winker.winweb.dao.mysql.TableInfoMapper;
-import org.winker.winweb.dao.mysql.TemplateMapper;
+import org.winker.winweb.dao.mysql.mapper.TableInfoMapper;
+import org.winker.winweb.dao.mysql.mapper.TemplateMapper;
 import org.winker.winweb.dao.mysql.entity.TableInfoDO;
 import org.winker.winweb.dao.mysql.entity.TableInfoQuery;
 import org.winker.winweb.dao.mysql.entity.TemplateDO;
 import org.winker.winweb.dao.mysql.entity.TemplateQuery;
 import org.winker.winweb.web.bean.Table;
-import org.winker.winweb.web.bean.TemplateBean;
+import org.winker.winweb.web.bean.TemplateEntity;
 import org.winker.winweb.utils.database.*;
 
 import javax.sql.DataSource;
@@ -91,18 +91,21 @@ public class DataBaseService implements InitializingBean {
         return templateMapper.insert(templateDO);
     }
 
-    public List<TemplateBean>  createCode(Long sqlId , List<String> templateNames){
-        String sql = tableInfoMapper.queryById(sqlId).getSql().replaceAll("`","");
+    public List<TemplateEntity>  createCode(Long sqlId, List<String> templateNames){
+        TableInfoDO tableInfo = tableInfoMapper.queryById(sqlId);
+        String sql = tableInfo.getSql().replaceAll("`","");
         org.winker.winweb.utils.database.Table table = MysqlParserUtils.getTable(sql);
+        table.setBasePath(tableInfo.getBasePath());
         List<TemplateDO> templateDOList = templateMapper.queryByNames(templateNames);
-        List<TemplateBean> templateBeans = new ArrayList<>();
+        List<TemplateEntity> templateEntities = new ArrayList<>();
         templateDOList.forEach(item ->{
-            TemplateBean templateBean = new TemplateBean();
-            templateBean.setContent(item.getContent());
-            templateBean.setTemplateName(item.getTemplateName());
-            templateBeans.add(templateBean);
+            TemplateEntity templateEntity = new TemplateEntity();
+            templateEntity.setContent(item.getContent());
+            templateEntity.setTemplateName(item.getTemplateName());
+            templateEntity.setFileName(item.getFileName());
+            templateEntities.add(templateEntity);
         });
-        return MysqlParserUtils.fillTemplate(table,templateBeans);
+        return MysqlParserUtils.fillTemplate(table, templateEntities);
     }
 
     @Override
