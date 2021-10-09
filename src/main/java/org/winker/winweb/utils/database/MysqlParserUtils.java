@@ -14,6 +14,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.zip.CRC32;
+import java.util.zip.CheckedOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -72,21 +74,13 @@ public class MysqlParserUtils {
 
     public static void resultToZip(List<TemplateEntity> templateEntityList) throws IOException {
         String tempPath = FileUtils.getTempDirectoryPath();
-        ZipOutputStream zos = new ZipOutputStream(new FileOutputStream("/Users/tom/a.zip"));
-
+        ZipOutputStream zos = new ZipOutputStream(new CheckedOutputStream(new FileOutputStream("/Users/tom/a.zip"),new CRC32()));
+        templateEntityList = templateEntityList.subList(0,1);
         for(TemplateEntity templateEntity : templateEntityList){
-
             File tempFile = File.createTempFile("temp",".txt");
-            ZipEntry zipEntry = new ZipEntry("ahua");
-            zos.putNextEntry(zipEntry);
-            System.out.println(tempFile.getAbsolutePath());
-            FileInputStream tempFileInputStream = new FileInputStream(tempFile);
-            int data = 0;
-
-            while ((data=tempFileInputStream.read())!=-1) {
-                zos.write(tempFileInputStream.read());
-            }
+            FileCompressUtils.compress(tempFile,zos,"ahua/a.txt");
         }
+        zos.close();
 
     }
 

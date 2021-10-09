@@ -25,10 +25,10 @@ public class DataBaseConfig {
 //        dataSource.setMinIdle(2);
 
         DruidDataSource dataSource = new DruidDataSource();
-        dataSource.setUrl("jdbc:mysql://118.24.247.119:3306/mydb");
+        dataSource.setUrl("jdbc:mysql://182.254.138.250:3306/mydb");
         dataSource.setDriverClassName("com.mysql.jdbc.Driver"); //这个可以缺省的，会根据url自动识别
         dataSource.setUsername("root");
-        dataSource.setPassword("1314251");
+        dataSource.setPassword("Ahua@1314251");
         dataSource.setName("test1");
 
         //下面都是可选的配置
