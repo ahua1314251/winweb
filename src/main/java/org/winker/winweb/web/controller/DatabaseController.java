@@ -86,7 +86,7 @@ public class DatabaseController {
 
     @GetMapping("/downloadCode.json")
     ResponseEntity<byte[]> downloadCode(@RequestParam("param") String param) throws SQLException, IOException {
-       
+        Jackson
         Long sqlId = Long.parseLong(map.get("sqlId").toString());
         List<String> templateNames = (List<String>) map.get("templateNames");
         List<TemplateEntity> templateEntityList = dataBaseService.createCode(sqlId,templateNames);
