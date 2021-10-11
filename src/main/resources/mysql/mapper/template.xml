@@ -14,7 +14,9 @@
         content,
         status,
         version,
-        file_name)
+        file_name,
+        file_path
+        )
         VALUES (
         id,
         now(),
@@ -25,7 +27,9 @@
         content,
         status,
         version,
-        fileName)
+        fileName,
+        filePath
+        )
         <selectKey keyProperty="id" resultType="java.lang.Integer">
             select LAST_INSERT_ID() as id
         </selectKey>
@@ -70,6 +74,9 @@
         <if test="fileName != null">
             AND file_name = #{fileName}
         </if>
+        <if test="filePath != null">
+            AND file_path = #{filePath}
+        </if>
         limit #{pageNo},#{pageSize}
     </select>
 
@@ -91,8 +98,8 @@
             <if test="status != null">
                 status = #{status},
             </if>
-            <if test="fileName != null">
-                file_name = #{fileName},
+            <if test="filePath != null">
+                file_path = #{filePath},
             </if>
             gmt_modified = now(),
             version = version+1,

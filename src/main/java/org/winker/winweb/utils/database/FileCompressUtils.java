@@ -1,5 +1,7 @@
 package org.winker.winweb.utils.database;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.io.*;
 import java.util.zip.CRC32;
 import java.util.zip.CheckedOutputStream;
@@ -30,7 +32,7 @@ public class FileCompressUtils {
             CheckedOutputStream cos = new CheckedOutputStream(out,new CRC32());
             zipOut = new ZipOutputStream(cos);
             String baseDir = "";
-            compress(srcFile, zipOut, baseDir);
+            compress(srcFile, zipOut, baseDir ,null);
         }
         finally {
             if(null != zipOut){
@@ -44,11 +46,11 @@ public class FileCompressUtils {
         }
     }
 
-    public static void compress(File file, ZipOutputStream zipOut, String baseDir) throws IOException {
+    public static void compress(File file, ZipOutputStream zipOut, String baseDir ,String fileName) throws IOException {
         if (file.isDirectory()) {
             compressDirectory(file, zipOut, baseDir);
         } else {
-            compressFile(file, zipOut, baseDir);
+            compressFile(file, zipOut, baseDir,fileName);
         }
     }
 
@@ -56,7 +58,7 @@ public class FileCompressUtils {
     private static void compressDirectory(File dir, ZipOutputStream zipOut, String baseDir) throws IOException{
         File[] files = dir.listFiles();
         for (int i = 0; i < files.length; i++) {
-            compress(files[i], zipOut, baseDir + dir.getName() + "/");
+            compress(files[i], zipOut, baseDir + dir.getName() + "/",null);
         }
     }
 
@@ -70,6 +72,30 @@ public class FileCompressUtils {
         try {
             bis = new BufferedInputStream(new FileInputStream(file));
             ZipEntry entry = new ZipEntry(baseDir + file.getName());
+            zipOut.putNextEntry(entry);
+            int count;
+            byte data[] = new byte[BUFFER];
+            while ((count = bis.read(data, 0, BUFFER)) != -1) {
+                zipOut.write(data, 0, count);
+            }
+
+        }finally {
+            if(null != bis){
+                bis.close();
+            }
+        }
+    }
+
+    /** 压缩一个文件 */
+    public static void compressFile(File file, ZipOutputStream zipOut, String baseDir ,String fileName)  throws IOException{
+        if (!file.exists()){
+            return;
+        }
+
+        BufferedInputStream bis = null;
+        try {
+            bis = new BufferedInputStream(new FileInputStream(file));
+            ZipEntry entry = new ZipEntry(baseDir + StringUtils.defaultIfEmpty(fileName ,file.getName()));
             zipOut.putNextEntry(entry);
             int count;
             byte data[] = new byte[BUFFER];

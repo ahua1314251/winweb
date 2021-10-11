@@ -10,13 +10,16 @@ import org.apache.velocity.app.VelocityEngine;
 import org.winker.winweb.common.Constant;
 import org.winker.winweb.web.bean.TemplateEntity;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.zip.CRC32;
 import java.util.zip.CheckedOutputStream;
-import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class MysqlParserUtils {
@@ -72,16 +75,24 @@ public class MysqlParserUtils {
         return resultList;
     }
 
-    public static void resultToZip(List<TemplateEntity> templateEntityList) throws IOException {
+    public static File resultToZip(List<TemplateEntity> templateEntityList) throws IOException {
         String tempPath = FileUtils.getTempDirectoryPath();
-        ZipOutputStream zos = new ZipOutputStream(new CheckedOutputStream(new FileOutputStream("/Users/tom/a.zip"),new CRC32()));
-        templateEntityList = templateEntityList.subList(0,1);
+        String zipName = "";
         for(TemplateEntity templateEntity : templateEntityList){
-            File tempFile = File.createTempFile("temp",".txt");
-            FileCompressUtils.compress(tempFile,zos,"ahua/a.txt");
+            zipName = zipName + templateEntity.getTemplateName()+"-";
         }
+        zipName = zipName.endsWith("-")?zipName.substring(0,zipName.length()-1):zipName;
+        File tempFileZip = File.createTempFile("winker",zipName+".zip");
+        ZipOutputStream zos = new ZipOutputStream(new CheckedOutputStream(new FileOutputStream(tempFileZip),new CRC32()));
+        for(TemplateEntity templateEntity : templateEntityList){
+            File tempFile = File.createTempFile("winker",templateEntity.getFileName());
+            FileUtils.write(tempFile,templateEntity.getResult(), Charset.forName("utf-8"));
+            FileCompressUtils.compress(tempFile,zos,templateEntity.getFilePath(),templateEntity.getFileName());
+            tempFile.delete();
+        }
+        zos.finish();
         zos.close();
-
+        return tempFileZip;
     }
 
     public static void main(String[] args) throws IOException {
@@ -119,7 +130,10 @@ public class MysqlParserUtils {
 //        System.out.println(objectMapper.writeValueAsString(table));
 
         String content = FileUtils.readFileToString(new File("/Users/tom/git/winweb/templates/mybatis.xml"),"utf-8");
-        List<TemplateEntity> templateEntityList = fillTemplate(table, Arrays.asList(new TemplateEntity("test",content,"","${table.name}.xml")));
+        List<TemplateEntity> templateEntityList = fillTemplate(table, Arrays.asList(
+                new TemplateEntity("test",content,"","mapper/","${table.name}.xml")
+        ,new TemplateEntity("test2",content,"","mysql/","${table.name}.txt")
+        ));
 
 
         System.out.println(templateEntityList.get(0).getResult());

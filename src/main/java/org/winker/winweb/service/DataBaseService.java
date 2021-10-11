@@ -103,6 +103,7 @@ public class DataBaseService implements InitializingBean {
             templateEntity.setContent(item.getContent());
             templateEntity.setTemplateName(item.getTemplateName());
             templateEntity.setFileName(item.getFileName());
+            templateEntity.setFilePath(item.getFilePath());
             templateEntities.add(templateEntity);
         });
         return MysqlParserUtils.fillTemplate(table, templateEntities);

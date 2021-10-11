@@ -37,8 +37,11 @@ public class TemplateDO implements Serializable {
     /**数据版本控制**/
     private Integer version;
 
-    /****/
+    /**生成文件名称**/
     private String fileName;
+
+    /**生成文件目录**/
+    private String filePath;
 
     public Long getId(){
         return this.id;
@@ -111,5 +114,13 @@ public class TemplateDO implements Serializable {
 
     public void setFileName(String fileName){
         this.fileName = fileName;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 }

@@ -7,16 +7,18 @@ public class TemplateEntity {
     String content;
     String result;
     String fileName;
+    String filePath;
 
     public TemplateEntity() {
 
     }
 
-    public TemplateEntity(String templateName, String content, String result, String fileName) {
+    public TemplateEntity(String templateName, String content, String result,String filePath, String fileName) {
         this.templateName = templateName;
         this.content = content;
         this.result = result;
         this.fileName = StringUtils.defaultIfEmpty(fileName,templateName);
+        this.filePath = StringUtils.defaultIfEmpty(filePath,null);
     }
 
     public String getTemplateName() {
@@ -49,5 +51,13 @@ public class TemplateEntity {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 }
