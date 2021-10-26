@@ -15,6 +15,7 @@ public class TemplateQuery extends BaseQuery{
     private Integer status;
     private Integer version;
     private String fileName;
+    private String filePath;
 
     public Long getId(){
         return this.id;
@@ -85,5 +86,13 @@ public class TemplateQuery extends BaseQuery{
 
     public void setFileName(String fileName){
         this.fileName = fileName;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 }
