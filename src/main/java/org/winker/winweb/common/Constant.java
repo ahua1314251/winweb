@@ -10,4 +10,5 @@ package org.winker.winweb.common;
 public class Constant {
 
     public static String SINGLE_QUOTATION_MARK = "'";
+    public static String BACKSLASH_MARK = "/";
 }

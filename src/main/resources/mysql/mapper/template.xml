@@ -101,6 +101,9 @@
             <if test="filePath != null">
                 file_path = #{filePath},
             </if>
+            <if test="fileName != null">
+                file_name = #{fileName},
+            </if>
             gmt_modified = now(),
             version = version+1,
         </set>

@@ -4,6 +4,7 @@ package org.winker.winweb.service;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.winker.winweb.common.Constant;
 import org.winker.winweb.dao.mysql.mapper.TableInfoMapper;
 import org.winker.winweb.dao.mysql.mapper.TemplateMapper;
 import org.winker.winweb.dao.mysql.entity.TableInfoDO;
@@ -84,10 +85,16 @@ public class DataBaseService implements InitializingBean {
     }
 
     public int updateTemplate(TemplateDO templateDO){
+        if(templateDO.getFilePath()!=null && !templateDO.getFileName().endsWith(Constant.BACKSLASH_MARK)){
+            templateDO.setFilePath(templateDO.getFilePath()+Constant.BACKSLASH_MARK);
+        }
         return templateMapper.update(templateDO);
     }
 
     public int createTemplate(TemplateDO templateDO){
+        if(templateDO.getFilePath()!=null && !templateDO.getFileName().endsWith(Constant.BACKSLASH_MARK)){
+            templateDO.setFilePath(templateDO.getFilePath()+Constant.BACKSLASH_MARK);
+        }
         return templateMapper.insert(templateDO);
     }
 
