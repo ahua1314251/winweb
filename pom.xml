@@ -7,6 +7,12 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>web Maven Webapp</name>
     <url>http://maven.apache.org</url>
+    <repositories>
+        <repository>
+            <id>github</id>
+            <url>https://raw.githubusercontent.com/ahua1314251/maven/master/repo/</url>
+        </repository>
+    </repositories>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -153,8 +159,19 @@
             <version>1.2.5</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.winker</groupId>
+            <artifactId>springmvc-velocity</artifactId>
+            <version>2.5.5</version>
+        </dependency>
+
     </dependencies>
     <build>
         <finalName>winweb</finalName>
     </build>
+
+
+
+
 </project>
+
