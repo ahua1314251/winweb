@@ -1,6 +1,5 @@
 package org.winker.winweb.utils.database;
 
-import com.aliyun.search.common.constants.Constants;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;

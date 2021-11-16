@@ -1,6 +1,5 @@
 package org.winker.spider;
 
-import com.alibaba.fastjson.JSON;
 import org.apache.commons.collections.CollectionUtils;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.slf4j.Logger;
@@ -23,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 public class ChromeDriverPool {
     private static List<ChromeDriverIns> chromeDriverInsList = null;;
     public static ThreadLocal<ChromeDriverIns> chromeDriverInsHolder = new ThreadLocal<>();
-    private final static Logger logger = LoggerFactory.getLogger(SpiderService.class);
+    private final static Logger logger = LoggerFactory.getLogger(ChromeDriverPool.class);
 
     public static synchronized ChromeDriverIns getChromeDriverIns(){
         //没有被初始化先初始化再取对象 测试使用

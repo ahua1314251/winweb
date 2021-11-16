@@ -32,4 +32,13 @@ public class JacksonUtil {
             return null;
         }
     }
+
+    public static String toJsonString(Object obj){
+        try {
+            return objectMapper.writeValueAsString(obj);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

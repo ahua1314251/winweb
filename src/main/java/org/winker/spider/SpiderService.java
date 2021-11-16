@@ -1,18 +1,6 @@
 package org.winker.spider;
 
-import com.alibaba.fastjson.JSON;
-import com.aliyun.search.api.enums.BizTypeEnum;
-import com.aliyun.search.common.constants.Constants;
-import com.aliyun.search.common.middleware.diamond.DiamondConfigBean;
-import com.aliyun.search.common.utils.MsgUtils;
-import com.aliyun.search.dao.mysql.dataobj.SpiderDO;
-import com.aliyun.search.dao.mysql.mapper.ProductMapper;
-import com.aliyun.search.dao.mysql.mapper.SpiderMapper;
-import com.taobao.tair.DataEntry;
-import com.taobao.tair.Result;
-import com.taobao.tair.ResultCode;
-import com.taobao.tair.TairManager;
-import org.apache.commons.lang3.StringUtils;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -22,6 +10,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.winker.winweb.common.enums.BizTypeEnum;
+import org.winker.winweb.dao.mysql.entity.SpiderDO;
+import org.winker.winweb.dao.mysql.mapper.SpiderMapper;
+import org.winker.winweb.utils.database.JacksonUtil;
+import org.winker.winweb.utils.database.MsgUtils;
 
 import java.util.*;
 import java.util.concurrent.*;
@@ -40,12 +33,6 @@ public class SpiderService {
     private final static Logger logger = LoggerFactory.getLogger(SpiderService.class);
     @Autowired
     SpiderMapper spiderMapper;
-    @Autowired
-    DiamondConfigBean diamondConfigBean;
-    @Autowired
-    TairManager tairManager;
-    @Autowired
-    ProductMapper productMapper;
 
     private static AtomicInteger count = new AtomicInteger(0);
     private static Map<String, String> allUrlMap = new HashMap();
@@ -57,7 +44,6 @@ public class SpiderService {
     private String cachePrefix = "";
 
     public void run(String seed, Integer deep) throws InterruptedException {
-        this.init();
         this.seedRun(seed, deep);
     }
 
@@ -74,13 +60,6 @@ public class SpiderService {
             while (it.hasNext()) {
                 String runUrl = it.next();
                 int finalI = i;
-                //如果已经被其他机器爬过 跳过不爬
-                if (!StringUtils.isEmpty(this.get(runUrl))) {
-                    latch.countDown();
-                    continue;
-                }
-                //如果没有被爬过，直接加入tair 代表已经被爬，可能会有意外情况，爬虫没那么严格，重点是效率。
-                put(runUrl, runUrl);
                 executorService.submit(new Runnable() {
                     @Override
                     public void run() {
@@ -119,7 +98,7 @@ public class SpiderService {
             Elements elements = document.getElementsByTag("a");
             for (Element element : elements) {
                 String url1 = MsgUtils.cleanUrlParam(element.attr("href"));
-                if (MsgUtils.filterUrl(url1, diamondConfigBean.getSpiderBlackUrlList()) && !allUrlMap.containsKey(url1)) {
+                if (MsgUtils.filterUrl(url1, new ArrayList<>()) && !allUrlMap.containsKey(url1)) {
                     urlSets.add(url1);
                     allUrlMap.put(url1, element.text());
                 }
@@ -159,24 +138,21 @@ public class SpiderService {
             }
         }
         //删除不需要样式
-        diamondConfigBean.getSpiderDeleteStyles().forEach(item ->{
-            document.getElementsByClass(item).remove();
-        });
         document.getElementsByTag("textarea").remove();
         document.getElementsByTag("input").remove();
         document.getElementsByTag("select").remove();
         document.getElementsByTag("button").remove();
         document.getElementsByTag("option").remove();
         String outBizId = MsgUtils.cleanUkMark(url);
-        String uk = MsgUtils.genUk(BizTypeEnum.OTHER.getValue(), "网站", outBizId);
+        String uk = MsgUtils.genUk(BizTypeEnum.OVERFLOW.getValue(), "java", outBizId);
         String content = document.text();
         SpiderDO spiderDO = new SpiderDO();
         String nodeInfo = "[{\"nodeLevel\": 0, \"nodeId\": \"0\", \"nodeName\": \"网站\"}]";
-        spiderDO.setNodesInfo(JSON.toJSONString(nodesInfo.entrySet()));
+        spiderDO.setNodesInfo(JacksonUtil.toJsonString(nodesInfo.entrySet()));
         spiderDO.setNodesInfo(nodeInfo);
         spiderDO.setUk(uk);
         spiderDO.setOutBizId(outBizId);
-        spiderDO.setBizType(BizTypeEnum.OTHER.getValue());
+        spiderDO.setBizType(BizTypeEnum.OVERFLOW.getValue());
         spiderDO.setSubBizType("网站");
         spiderDO.setUrl(url);
         spiderDO.setContent(content);
@@ -195,47 +171,7 @@ public class SpiderService {
         }
     }
 
-    public void put(String key, String value) {
-        try {
-            //爬虫缓存4小时过期
-            ResultCode resultCode = tairManager.prefixPut(Constants.TAIR_NAMESPASE, cachePrefix, key, value, 0, 10000);
-            if (!resultCode.isSuccess()) {
-                logger.error("put cache failed prefix={},key={},value={},errorInfo={}", cachePrefix, key, value, JSON.toJSONString(resultCode));
-            }
-        } catch (Exception e) {
-            logger.error("put cache failed prefix={},key={},value={}", cachePrefix, key, value, e);
-        }
-    }
 
-    public String get(String key) {
-        try {
-            Result<DataEntry> result = tairManager.prefixGet(Constants.TAIR_NAMESPASE, cachePrefix, key);
-            if (result.isSuccess() && result.getValue() != null && result.getValue().getValue() != null) {
-                return (String) result.getValue().getValue();
-            }
-        } catch (Exception e) {
-            logger.error("get cache failed prefix={},key={}", cachePrefix, key, e);
-        }
-        return null;
-    }
 
-    public int getVersion() {
-        return version;
-    }
-
-    public void setVersion(int version) {
-        this.version = version;
-        this.cachePrefix = diamondConfigBean.getTairEnv() + version;
-    }
-
-    public void init() {
-        count.set(0);
-        allUrlMap.clear();
-        levelUrl.clear();
-        List<String> productUrls = productMapper.queryUrlForSpider();
-        for (String productUrl : productUrls) {
-            put(MsgUtils.cleanUrlParam(productUrl), productUrl);
-        }
-    }
 
 }

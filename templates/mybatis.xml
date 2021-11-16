@@ -5,20 +5,20 @@
 
     <insert id="insert" parameterType="${table.basePath}.entity.${table.methodName}DO" >
         INSERT INTO ${table.name} (
-#foreach($column in $table.columns)
+        #foreach($column in $table.columns)
         $column.name#if($foreach.hasNext()),
-#end
-#end)
+        #end
+        #end)
         VALUES (
-#foreach($column in $table.columns)
-#if($column.entityName =='gmtModified' || $column.entityName =='gmtCreate')
+        #foreach($column in $table.columns)
+        #if($column.entityName =='gmtModified' || $column.entityName =='gmtCreate')
         now()#if($foreach.hasNext()),
-#end
-#else
+        #end
+        #else
         $column.entityName#if($foreach.hasNext()),
-#end
-#end
-#end)
+        #end
+        #end
+        #end)
         <selectKey keyProperty="id" resultType="java.lang.Integer">
             select LAST_INSERT_ID() as id
         </selectKey>
@@ -33,23 +33,23 @@
     <select id="queryPage" parameterType="${table.basePath}.entity.${table.methodName}Query" resultType="${table.basePath}.entity.${table.methodName}DO">
         select * from ${table.name} where
         1=1
-#foreach($column in $table.columns)
+        #foreach($column in $table.columns)
         <if test="${column.entityName} != null">
             AND ${column.name} = #{${column.entityName}}
         </if>
-#end
+        #end
         limit #{pageNo},#{pageSize}
     </select>
 
     <update id="update" parameterType="${table.basePath}.entity.${table.methodName}DO">
         update ${table.name}
         <set >
-#foreach($column in $table.columns)
-#if($column.name !='id' && $column.name !='gmt_modified' && $column.name !='version' && $column.name !='gmt_create')
+            #foreach($column in $table.columns)
+            #if($column.name !='id' && $column.name !='gmt_modified' && $column.name !='version' && $column.name !='gmt_create')
             <if test="${column.entityName} != null">
                 ${column.name} = #{${column.entityName}},
             </if>
-#end#end
+            #end#end
             gmt_modified = now(),
             version = version+1,
         </set>
@@ -59,5 +59,36 @@
     <delete id="deleteById" parameterType="long" >
         delete from ${table.name} where id = #{id}
     </delete>
+
+
+    #foreach($column in $table.columns)
+    #if($column.entityName == 'uk')
+    <update id="updateByUk" parameterType="${table.basePath}.entity.${table.methodName}DO">
+        update ${table.name}
+        <set >
+            #foreach($column in $table.columns)
+            #if($column.name !='id' && $column.name !='gmt_modified' && $column.name !='version' && $column.name !='gmt_create')
+            <if test="${column.entityName} != null">
+                ${column.name} = #{${column.entityName}},
+            </if>
+            #end#end
+            gmt_modified = now(),
+            version = version+1,
+        </set>
+        where uk = #{uk}
+    </update>
+
+    <delete id="deleteByUk" parameterType="string" >
+        delete from ${table.name} where uk = #{uk}
+    </delete>
+
+    <select id="queryByUk" parameterType="string" resultType="${table.basePath}.entity.${table.methodName}DO">
+        select * from ${table.name} where uk = #{uk}
+    </select>
+
+    <select id="existByUk" parameterType="string" resultType="java.lang.Integer">
+        select count(1) from ${table.name} where uk = #{uk}
+    </select>
+    #end#end
 
 </mapper>

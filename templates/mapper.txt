@@ -18,4 +18,13 @@ public interface ${table.methodName}Mapper {
     int insert(${table.methodName}DO ${table.entityName}DO);
 
     int deleteById(Long id);
+
+#foreach($column in $table.columns)
+#if($column.entityName == 'uk')
+    int deleteByUk(String uk);
+
+    Integer existByUk(String uk);
+
+    int updateByUk(${table.methodName}DO ${table.entityName}DO);
+#end#end
 }

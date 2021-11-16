@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.winker.winweb.dao.mysql.mapper.SpiderMapper">
+
+    <insert id="insert" parameterType="org.winker.winweb.dao.mysql.entity.SpiderDO" >
+        INSERT INTO spider (
+        id,
+        gmt_create,
+        gmt_modified,
+        gmt_create_origin,
+        gmt_modified_origin,
+        biz_type,
+        sub_biz_type,
+        url,
+        title,
+        img_url,
+        content,
+        description,
+        keywords,
+        score,
+        product_code,
+        product_name,
+        nodes_info,
+        tags,
+        uk,
+        out_biz_id,
+        level,
+        status,
+        version,
+        tag_text        )
+        VALUES (
+        id,
+        now(),
+        now(),
+        gmtCreateOrigin,
+        gmtModifiedOrigin,
+        bizType,
+        subBizType,
+        url,
+        title,
+        imgUrl,
+        content,
+        description,
+        keywords,
+        score,
+        productCode,
+        productName,
+        nodesInfo,
+        tags,
+        uk,
+        outBizId,
+        level,
+        status,
+        version,
+        tagText                )
+        <selectKey keyProperty="id" resultType="java.lang.Integer">
+            select LAST_INSERT_ID() as id
+        </selectKey>
+    </insert>
+
+
+    <select id="queryById" parameterType="long" resultType="org.winker.winweb.dao.mysql.entity.SpiderDO">
+        select * from spider where id = #{id}
+    </select>
+
+
+    <select id="queryPage" parameterType="org.winker.winweb.dao.mysql.entity.SpiderQuery" resultType="org.winker.winweb.dao.mysql.entity.SpiderDO">
+        select * from spider where
+        1=1
+        <if test="id != null">
+            AND id = #{id}
+        </if>
+        <if test="gmtCreate != null">
+            AND gmt_create = #{gmtCreate}
+        </if>
+        <if test="gmtModified != null">
+            AND gmt_modified = #{gmtModified}
+        </if>
+        <if test="gmtCreateOrigin != null">
+            AND gmt_create_origin = #{gmtCreateOrigin}
+        </if>
+        <if test="gmtModifiedOrigin != null">
+            AND gmt_modified_origin = #{gmtModifiedOrigin}
+        </if>
+        <if test="bizType != null">
+            AND biz_type = #{bizType}
+        </if>
+        <if test="subBizType != null">
+            AND sub_biz_type = #{subBizType}
+        </if>
+        <if test="url != null">
+            AND url = #{url}
+        </if>
+        <if test="title != null">
+            AND title = #{title}
+        </if>
+        <if test="imgUrl != null">
+            AND img_url = #{imgUrl}
+        </if>
+        <if test="content != null">
+            AND content = #{content}
+        </if>
+        <if test="description != null">
+            AND description = #{description}
+        </if>
+        <if test="keywords != null">
+            AND keywords = #{keywords}
+        </if>
+        <if test="score != null">
+            AND score = #{score}
+        </if>
+        <if test="productCode != null">
+            AND product_code = #{productCode}
+        </if>
+        <if test="productName != null">
+            AND product_name = #{productName}
+        </if>
+        <if test="nodesInfo != null">
+            AND nodes_info = #{nodesInfo}
+        </if>
+        <if test="tags != null">
+            AND tags = #{tags}
+        </if>
+        <if test="uk != null">
+            AND uk = #{uk}
+        </if>
+        <if test="outBizId != null">
+            AND out_biz_id = #{outBizId}
+        </if>
+        <if test="level != null">
+            AND level = #{level}
+        </if>
+        <if test="status != null">
+            AND status = #{status}
+        </if>
+        <if test="version != null">
+            AND version = #{version}
+        </if>
+        <if test="tagText != null">
+            AND tag_text = #{tagText}
+        </if>
+        limit #{pageNo},#{pageSize}
+    </select>
+
+    <update id="update" parameterType="org.winker.winweb.dao.mysql.entity.SpiderDO">
+        update spider
+        <set >
+            <if test="gmtCreateOrigin != null">
+                gmt_create_origin = #{gmtCreateOrigin},
+            </if>
+            <if test="gmtModifiedOrigin != null">
+                gmt_modified_origin = #{gmtModifiedOrigin},
+            </if>
+            <if test="bizType != null">
+                biz_type = #{bizType},
+            </if>
+            <if test="subBizType != null">
+                sub_biz_type = #{subBizType},
+            </if>
+            <if test="url != null">
+                url = #{url},
+            </if>
+            <if test="title != null">
+                title = #{title},
+            </if>
+            <if test="imgUrl != null">
+                img_url = #{imgUrl},
+            </if>
+            <if test="content != null">
+                content = #{content},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+            <if test="keywords != null">
+                keywords = #{keywords},
+            </if>
+            <if test="score != null">
+                score = #{score},
+            </if>
+            <if test="productCode != null">
+                product_code = #{productCode},
+            </if>
+            <if test="productName != null">
+                product_name = #{productName},
+            </if>
+            <if test="nodesInfo != null">
+                nodes_info = #{nodesInfo},
+            </if>
+            <if test="tags != null">
+                tags = #{tags},
+            </if>
+            <if test="uk != null">
+                uk = #{uk},
+            </if>
+            <if test="outBizId != null">
+                out_biz_id = #{outBizId},
+            </if>
+            <if test="level != null">
+                level = #{level},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="tagText != null">
+                tag_text = #{tagText},
+            </if>
+            gmt_modified = now(),
+            version = version+1,
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="long" >
+        delete from spider where id = #{id}
+    </delete>
+
+
+    <update id="updateByUk" parameterType="org.winker.winweb.dao.mysql.entity.SpiderDO">
+        update spider
+        <set >
+            <if test="gmtCreateOrigin != null">
+                gmt_create_origin = #{gmtCreateOrigin},
+            </if>
+            <if test="gmtModifiedOrigin != null">
+                gmt_modified_origin = #{gmtModifiedOrigin},
+            </if>
+            <if test="bizType != null">
+                biz_type = #{bizType},
+            </if>
+            <if test="subBizType != null">
+                sub_biz_type = #{subBizType},
+            </if>
+            <if test="url != null">
+                url = #{url},
+            </if>
+            <if test="title != null">
+                title = #{title},
+            </if>
+            <if test="imgUrl != null">
+                img_url = #{imgUrl},
+            </if>
+            <if test="content != null">
+                content = #{content},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+            <if test="keywords != null">
+                keywords = #{keywords},
+            </if>
+            <if test="score != null">
+                score = #{score},
+            </if>
+            <if test="productCode != null">
+                product_code = #{productCode},
+            </if>
+            <if test="productName != null">
+                product_name = #{productName},
+            </if>
+            <if test="nodesInfo != null">
+                nodes_info = #{nodesInfo},
+            </if>
+            <if test="tags != null">
+                tags = #{tags},
+            </if>
+            <if test="uk != null">
+                uk = #{uk},
+            </if>
+            <if test="outBizId != null">
+                out_biz_id = #{outBizId},
+            </if>
+            <if test="level != null">
+                level = #{level},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="tagText != null">
+                tag_text = #{tagText},
+            </if>
+            gmt_modified = now(),
+            version = version+1,
+        </set>
+        where uk = #{uk}
+    </update>
+
+    <delete id="deleteByUk" parameterType="string" >
+        delete from spider where uk = #{uk}
+    </delete>
+
+    <select id="queryByUk" parameterType="string" resultType="org.winker.winweb.dao.mysql.entity.SpiderDO">
+        select * from spider where uk = #{uk}
+    </select>
+
+    <select id="existByUk" parameterType="string" resultType="java.lang.Integer">
+        select count(1) from spider where uk = #{uk}
+    </select>
+
+</mapper>
