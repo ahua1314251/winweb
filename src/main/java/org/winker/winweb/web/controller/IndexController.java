@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/")
-public class Index2 {
+public class IndexController {
 
 
 
