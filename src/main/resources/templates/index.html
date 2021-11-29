@@ -1,90 +1,253 @@
-<!doctype html>
-<html lang="en" class="h-100">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Jekyll v3.8.6">
-    <title>Sticky Footer Navbar Template · Bootstrap</title>
-
-    <link rel="canonical" href="https://v4.bootcss.com/docs/examples/sticky-footer-navbar/">
-
-    <!-- Bootstrap core CSS -->
-    <link href="/docs/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
-    <!-- Favicons -->
-    <link rel="apple-touch-icon" href="/docs/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
-    <link rel="icon" href="/docs/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
-    <link rel="icon" href="/docs/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
-    <link rel="manifest" href="/docs/assets/img/favicons/manifest.json">
-    <link rel="mask-icon" href="/docs/assets/img/favicons/safari-pinned-tab.svg" color="#563d7c">
-    <link rel="icon" href="/docs/assets/img/favicons/favicon.ico">
-    <meta name="msapplication-config" content="/docs/assets/img/favicons/browserconfig.xml">
-    <meta name="theme-color" content="#563d7c">
-
-
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+            name="keywords"
+            content="antd,umi,umijs,ant design,Scaffolding, layout, Ant Design, project, Pro, admin, console, homepage, out-of-the-box, middle and back office, solution, component library"
+    />
+    <meta
+            name="description"
+            content="
+    An out-of-box UI solution for enterprise applications as a React boilerplate."
+    />
+    <meta
+            name="description"
+            content="
+      Out-of-the-box mid-stage front-end/design solution."
+    />
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <title>Ant Design Pro</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/umi.0229bf6f.css" />
+    <script>
+        window.routerBase = "/";
+    </script>
+    <script>
+        //! umi version: 3.5.20
+    </script>
+</head>
+<body>
+<noscript>
+    <div class="noscript-container">
+        Hi there! Please
+        <div class="noscript-enableJS">
+            <a
+                    href="https://www.enablejavascript.io/en"
+                    target="_blank"
+                    rel="noopener noreferrer"
+            >
+                <b>enable Javascript</b>
+            </a>
+        </div>
+        in your browser to use Ant Design, Out-of-the-box mid-stage front/design
+        solution!
+    </div>
+</noscript>
+<div id="root">
     <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
+        html,
+        body,
+        #root {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        #root {
+            background-repeat: no-repeat;
+            background-size: 100% auto;
+        }
+        .noscript-container {
+            display: flex;
+            align-content: center;
+            justify-content: center;
+            margin-top: 90px;
+            font-size: 20px;
+            font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+            "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+        }
+        .noscript-enableJS {
+            padding-right: 3px;
+            padding-left: 3px;
+        }
+        .page-loading-warp {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 98px;
+        }
+        .ant-spin {
+            position: absolute;
+            display: none;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            color: rgba(0, 0, 0, 0.65);
+            color: #1890ff;
+            font-size: 14px;
+            font-variant: tabular-nums;
+            line-height: 1.5;
+            text-align: center;
+            list-style: none;
+            opacity: 0;
+            -webkit-transition: -webkit-transform 0.3s
+            cubic-bezier(0.78, 0.14, 0.15, 0.86);
+            transition: -webkit-transform 0.3s
+            cubic-bezier(0.78, 0.14, 0.15, 0.86);
+            transition: transform 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
+            transition: transform 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86),
+            -webkit-transform 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
+            -webkit-font-feature-settings: "tnum";
+            font-feature-settings: "tnum";
         }
 
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
+        .ant-spin-spinning {
+            position: static;
+            display: inline-block;
+            opacity: 1;
+        }
+
+        .ant-spin-dot {
+            position: relative;
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            font-size: 20px;
+        }
+
+        .ant-spin-dot-item {
+            position: absolute;
+            display: block;
+            width: 9px;
+            height: 9px;
+            background-color: #1890ff;
+            border-radius: 100%;
+            -webkit-transform: scale(0.75);
+            -ms-transform: scale(0.75);
+            transform: scale(0.75);
+            -webkit-transform-origin: 50% 50%;
+            -ms-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
+            opacity: 0.3;
+            -webkit-animation: antspinmove 1s infinite linear alternate;
+            animation: antSpinMove 1s infinite linear alternate;
+        }
+
+        .ant-spin-dot-item:nth-child(1) {
+            top: 0;
+            left: 0;
+        }
+
+        .ant-spin-dot-item:nth-child(2) {
+            top: 0;
+            right: 0;
+            -webkit-animation-delay: 0.4s;
+            animation-delay: 0.4s;
+        }
+
+        .ant-spin-dot-item:nth-child(3) {
+            right: 0;
+            bottom: 0;
+            -webkit-animation-delay: 0.8s;
+            animation-delay: 0.8s;
+        }
+
+        .ant-spin-dot-item:nth-child(4) {
+            bottom: 0;
+            left: 0;
+            -webkit-animation-delay: 1.2s;
+            animation-delay: 1.2s;
+        }
+
+        .ant-spin-dot-spin {
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+            -webkit-animation: antrotate 1.2s infinite linear;
+            animation: antRotate 1.2s infinite linear;
+        }
+
+        .ant-spin-lg .ant-spin-dot {
+            width: 32px;
+            height: 32px;
+            font-size: 32px;
+        }
+
+        .ant-spin-lg .ant-spin-dot i {
+            width: 14px;
+            height: 14px;
+        }
+
+        @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+            .ant-spin-blur {
+                background: #fff;
+                opacity: 0.5;
+            }
+        }
+
+        @-webkit-keyframes antSpinMove {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes antSpinMove {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @-webkit-keyframes antRotate {
+            to {
+                -webkit-transform: rotate(405deg);
+                transform: rotate(405deg);
+            }
+        }
+
+        @keyframes antRotate {
+            to {
+                -webkit-transform: rotate(405deg);
+                transform: rotate(405deg);
             }
         }
     </style>
-    <!-- Custom styles for this template -->
-    <link href="sticky-footer-navbar.css" rel="stylesheet">
-</head>
-<body class="d-flex flex-column h-100">
-<header>
-    <!-- Fixed navbar -->
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" href="#">Fixed navbar</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                </li>
-            </ul>
-            <form class="form-inline mt-2 mt-md-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
+    <div
+            style="
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          height: 100%;
+          min-height: 420px;
+        "
+    >
+        <img src="/pro_icon.svg" alt="logo" width="256" />
+        <div class="page-loading-warp">
+            <div class="ant-spin ant-spin-lg ant-spin-spinning">
+            <span class="ant-spin-dot ant-spin-dot-spin"
+            ><i class="ant-spin-dot-item"></i><i class="ant-spin-dot-item"></i
+            ><i class="ant-spin-dot-item"></i><i class="ant-spin-dot-item"></i
+            ></span>
+            </div>
         </div>
-    </nav>
-</header>
-
-<!-- Begin page content -->
-<main role="main" class="flex-shrink-0">
-    <div class="container">
-        <h1 class="mt-5">Sticky footer with fixed navbar</h1>
-        <p class="lead">Pin a footer to the bottom of the viewport in desktop browsers with this custom HTML and CSS. A fixed navbar has been added with <code>padding-top: 60px;</code> on the <code>main &gt; .container</code>.</p>
-        <p>Back to <a href="/docs/examples/sticky-footer/">the default sticky footer</a> minus the navbar.</p>
+        <div
+                style="display: flex; align-items: center; justify-content: center"
+        >
+            <img
+                    src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
+                    width="32"
+                    style="margin-right: 8px"
+            />
+            Ant Design
+        </div>
     </div>
-</main>
+</div>
 
-<footer class="footer mt-auto py-3">
-    <div class="container">
-        <span class="text-muted">Place sticky footer content here.</span>
-    </div>
-</footer>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script>window.jQuery || document.write('<script src="/docs/assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="/docs/dist/js/bootstrap.bundle.min.js" integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm" crossorigin="anonymous"></script></body>
+<script src="/umi.83553aaa.js"></script>
+</body>
 </html>

@@ -14,18 +14,26 @@ public class IndexController {
 
 
 
-    @RequestMapping("pages/**")
+    @RequestMapping("page/**")
     public String index2(HttpServletRequest res){
         System.out.println(res.getRequestURI());;
         return res.getRequestURI().replaceAll(".html","");
     }
 
-    @RequestMapping("/")
+    @RequestMapping("user/login")
     public String index(){
 
 
 //        return "/pages/index";
-        return "/pages/tables/index";
+        return "index";
+    }
+
+    @RequestMapping("admin/sub-page")
+    public String index11(){
+
+
+//        return "/pages/index";
+        return "index";
     }
 
 }
